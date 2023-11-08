@@ -99,13 +99,7 @@ const ModalLancamentoNegocio = ({ getNegocios }) => {
       <Button variant="success" onClick={handleShow} title="Lançar Negócio">
         <PlaylistAddIcon />
       </Button>
-      <Modal
-        show={show}
-        onHide={handleClose}
-        centered
-        size="lg"
-        style={{ zIndex: 1050 }}
-      >
+      <Modal show={show} onHide={handleClose} centered size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Lançar Negócio</Modal.Title>
         </Modal.Header>
@@ -154,6 +148,35 @@ const ModalLancamentoNegocio = ({ getNegocios }) => {
                   </Form.Select>
                 </FloatingLabel>
               </Col>
+              <Col>
+                {" "}
+                <FloatingLabel
+                  controlId="profissional"
+                  label="Responsável*"
+                  className="mb-3"
+                >
+                  <Form.Select
+                    aria-label="Responsável"
+                    required
+                    {...register("responsavel", {
+                      required: "Este campo é obrigatório",
+                    })}
+                  >
+                    <option value=""></option>
+                    {usuarios.length > 0 &&
+                      usuarios.map((usuario) => {
+                        if (usuario.funcao === "B") {
+                          return (
+                            <option key={usuario.id} value={usuario.id}>
+                              {usuario.first_name}
+                            </option>
+                          );
+                        }
+                        return "";
+                      })}
+                  </Form.Select>
+                </FloatingLabel>
+              </Col>
             </Row>
             <Row>
               <Col>
@@ -184,29 +207,36 @@ const ModalLancamentoNegocio = ({ getNegocios }) => {
               <Col>
                 {" "}
                 <FloatingLabel
-                  controlId="profissional"
-                  label="Responsável*"
+                  controlId="situacao"
+                  label="Situação"
                   className="mb-3"
                 >
                   <Form.Select
-                    aria-label="Responsável"
-                    required
-                    {...register("responsavel", {
-                      required: "Este campo é obrigatório",
-                    })}
+                    aria-label="Situação"
+                    {...register("situacao", {})}
                   >
                     <option value=""></option>
-                    {usuarios.length > 0 &&
-                      usuarios.map((usuario) => {
-                        if (usuario.funcao === "B") {
-                          return (
-                            <option key={usuario.id} value={usuario.id}>
-                              {usuario.first_name}
-                            </option>
-                          );
-                        }
-                        return "";
-                      })}
+                    <option value="E" style={{color:"orange"}}>
+                      Em andamento
+                    </option>
+                    <option value="P" style={{color:"red"}}>
+                      Perdido
+                    </option>
+                    <option value="F" style={{color:"green"}}>
+                      Fechado
+                    </option>
+                  </Form.Select>
+                </FloatingLabel>
+              </Col>
+              <Col>
+                {" "}
+                <FloatingLabel controlId="etapa" label="Etapa" className="mb-3">
+                  <Form.Select aria-label="Etapa" {...register("etapa", {})}>
+                    <option value=""></option>
+                    <option value="PRO">Prospecção</option>
+                    <option value="PRE">Pré-cadastro</option>
+                    <option value="ASS">Assinatura</option>
+                    <option value="EFE">Efetivação</option>
                   </Form.Select>
                 </FloatingLabel>
               </Col>

@@ -103,7 +103,7 @@ function ModalEditarnegocio(props) {
         <EditIcon />
       </Button>
 
-      <Modal show={show} onHide={handleClose} centered size="lg">
+      <Modal show={show} onHide={handleClose} centered size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Cadastro do negócio </Modal.Title>
         </Modal.Header>
@@ -156,6 +156,33 @@ function ModalEditarnegocio(props) {
                   </Form.Select>
                 </FloatingLabel>
               </Col>
+              <Col>
+                <FloatingLabel
+                  controlId="responsavelEdit"
+                  label="Responsável*"
+                  className="mb-3"
+                >
+                  <Form.Select
+                    aria-label="Pessoa"
+                    required
+                    value={negocio.responsavel}
+                    onChange={(e) =>
+                      setNegocio({ ...negocio, responsavel: e.target.value })
+                    }
+                  >
+                    {" "}
+                    <option value=""></option>
+                    {usuarios.length > 0 &&
+                      usuarios.map((usuario) => {
+                        return (
+                          <option key={usuario.id} value={usuario.id}>
+                            {usuario.first_name}
+                          </option>
+                        );
+                      })}
+                  </Form.Select>
+                </FloatingLabel>
+              </Col>
             </Row>
             <Row>
               <Col>
@@ -187,28 +214,50 @@ function ModalEditarnegocio(props) {
               </Col>
               <Col>
                 <FloatingLabel
-                  controlId="responsavelEdit"
-                  label="Responsável*"
+                  controlId="situacaoEdit"
+                  label="Situação"
                   className="mb-3"
                 >
                   <Form.Select
-                    aria-label="Pessoa"
+                    aria-label="Situação"
                     required
-                    value={negocio.responsavel}
+                    value={negocio.situacao}
                     onChange={(e) =>
-                      setNegocio({ ...negocio, responsavel: e.target.value })
+                      setNegocio({ ...negocio, situacao: e.target.value })
                     }
                   >
-                    {" "}
                     <option value=""></option>
-                    {usuarios.length > 0 &&
-                      usuarios.map((usuario) => {
-                        return (
-                          <option key={usuario.id} value={usuario.id}>
-                            {usuario.first_name}
-                          </option>
-                        );
-                      })}
+                    <option value="E" style={{ color: "orange" }}>
+                      Em andamento
+                    </option>
+                    <option value="P" style={{ color: "red" }}>
+                      Perdido
+                    </option>
+                    <option value="F" style={{ color: "green" }}>
+                      Fechado
+                    </option>
+                  </Form.Select>
+                </FloatingLabel>
+              </Col>
+              <Col>
+                <FloatingLabel
+                  controlId="etapaEdit"
+                  label="Etapa"
+                  className="mb-3"
+                >
+                  <Form.Select
+                    aria-label="Etapa"
+                    required
+                    value={negocio.etapa}
+                    onChange={(e) =>
+                      setNegocio({ ...negocio, etapa: e.target.value })
+                    }
+                  >
+                    <option value=""></option>
+                    <option value="PRO">Prospecção</option>
+                    <option value="PRE">Pré-cadastro</option>
+                    <option value="ASS">Assinatura</option>
+                    <option value="EFE">Efetivação</option>
                   </Form.Select>
                 </FloatingLabel>
               </Col>

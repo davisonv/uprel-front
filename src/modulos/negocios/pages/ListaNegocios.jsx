@@ -92,6 +92,7 @@ function ListaProdutos() {
             <th>Título</th>
             <th>Pessoa</th>
             <th>Responsável</th>
+            <th>Situação</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -110,14 +111,29 @@ function ListaProdutos() {
                   <td>{negocio.cliente_nome}</td>
                   <td>{negocio.responsavel_nome}</td>
                   <td>
+                    <div
+                      className={
+                        "w-75 m-auto " +
+                        (negocio.situacao === "E"
+                          ? "bg-warning"
+                          : negocio.situacao === "P"
+                          ? "bg-danger"
+                          : "bg-success")
+                      }
+                    >
+                      &nbsp;
+                    </div>
+                  </td>
+
+                  <td>
                     <Row className="justify-content-center mx-1">
-                      <Col sm={3}>
+                      <Col sm={4}>
                         <ModalEditarnegocio
                           id_negocio={negocio.id_negocio}
                           getNegocios={() => getNegocios()}
                         />{" "}
                       </Col>
-                      <Col sm={3}>
+                      <Col sm={4}>
                         <ModalExcluirNegocio
                           idNegocio={negocio.id_negocio}
                           getNegocios={() => getNegocios()}
