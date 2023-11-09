@@ -183,6 +183,33 @@ function ModalEditarnegocio(props) {
                   </Form.Select>
                 </FloatingLabel>
               </Col>
+              <Col>
+                <FloatingLabel
+                  controlId="situacaoEdit"
+                  label="Situação"
+                  className="mb-3"
+                >
+                  <Form.Select
+                    aria-label="Situação"
+                    required
+                    value={negocio.situacao}
+                    onChange={(e) =>
+                      setNegocio({ ...negocio, situacao: e.target.value })
+                    }
+                  >
+                    <option value=""></option>
+                    <option value="E" style={{ color: "orange" }}>
+                      Em andamento
+                    </option>
+                    <option value="P" style={{ color: "red" }}>
+                      Perdido
+                    </option>
+                    <option value="F" style={{ color: "green" }}>
+                      Fechado
+                    </option>
+                  </Form.Select>
+                </FloatingLabel>
+              </Col>
             </Row>
             <Row>
               <Col>
@@ -212,33 +239,7 @@ function ModalEditarnegocio(props) {
                     })}
                 </Form.Select>
               </Col>
-              <Col>
-                <FloatingLabel
-                  controlId="situacaoEdit"
-                  label="Situação"
-                  className="mb-3"
-                >
-                  <Form.Select
-                    aria-label="Situação"
-                    required
-                    value={negocio.situacao}
-                    onChange={(e) =>
-                      setNegocio({ ...negocio, situacao: e.target.value })
-                    }
-                  >
-                    <option value=""></option>
-                    <option value="E" style={{ color: "orange" }}>
-                      Em andamento
-                    </option>
-                    <option value="P" style={{ color: "red" }}>
-                      Perdido
-                    </option>
-                    <option value="F" style={{ color: "green" }}>
-                      Fechado
-                    </option>
-                  </Form.Select>
-                </FloatingLabel>
-              </Col>
+
               <Col>
                 <FloatingLabel
                   controlId="etapaEdit"
@@ -258,6 +259,57 @@ function ModalEditarnegocio(props) {
                     <option value="PRE">Pré-cadastro</option>
                     <option value="ASS">Assinatura</option>
                     <option value="EFE">Efetivação</option>
+                  </Form.Select>
+                </FloatingLabel>
+              </Col>
+              <Col>
+                <FloatingLabel
+                  controlId="nivel_confiancaEdit"
+                  label="Nível de Confiança"
+                  className="mb-3"
+                >
+                  <Form.Select
+                    aria-label="Nível de Confiança"
+                    required
+                    value={negocio.nivel_confianca}
+                    onChange={(e) =>
+                      setNegocio({
+                        ...negocio,
+                        nivel_confianca: e.target.value,
+                      })
+                    }
+                  >
+                    <option value=""></option>
+                    <option value="1" className="text-danger">
+                      1
+                    </option>
+                    <option value="2" className="text-danger">
+                      2
+                    </option>
+                    <option value="3" className="text-danger">
+                      4
+                    </option>
+                    <option value="4" className="text-danger">
+                      4
+                    </option>
+                    <option value="5" className="text-warning">
+                      5
+                    </option>
+                    <option value="6" className="text-warning">
+                      6
+                    </option>
+                    <option value="7" className="text-warning">
+                      7
+                    </option>
+                    <option value="8" className="text-success">
+                      8
+                    </option>
+                    <option value="9" className="text-success">
+                      9
+                    </option>
+                    <option value="10" className="text-success">
+                      10
+                    </option>
                   </Form.Select>
                 </FloatingLabel>
               </Col>

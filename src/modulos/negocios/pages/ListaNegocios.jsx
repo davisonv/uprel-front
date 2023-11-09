@@ -120,6 +120,9 @@ function ListaProdutos() {
                           ? "bg-danger"
                           : "bg-success")
                       }
+                      title={
+                        negocio.situacao==='E' ? 'Em Andamento' : negocio.situacao==='P' ? "Perdido" : 'Fechado'
+                      }
                     >
                       &nbsp;
                     </div>
