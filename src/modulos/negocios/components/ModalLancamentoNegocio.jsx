@@ -8,7 +8,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 
-const ModalLancamentoNegocio = ({ getNegocios }) => {
+const ModalLancamentoNegocio = ({
+  getNegocios,
+  lancarTarefas,
+  novoNegocio,
+}) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -16,6 +20,9 @@ const ModalLancamentoNegocio = ({ getNegocios }) => {
   const [clientes, setClientes] = useState([{}]);
   const [produtos, setProdutos] = useState([{}]);
   const [usuarios, setUsuarios] = useState([{}]);
+  const [negocio, setNegocio] = useState([{}]);
+  const [idNegocio, setIdNegocio] = useState(null);
+
   const currentDate = new Date();
   currentDate.setHours(currentDate.getHours() - 3);
   const dataHoraInicial = currentDate.toISOString().slice(0, 16);
@@ -70,18 +77,17 @@ const ModalLancamentoNegocio = ({ getNegocios }) => {
   const lancarNegocio = (values) => {
     setCarregando(true);
 
-    const negocio = {
-      ...values,
-    };
-    console.log(negocio);
-
-    BaseAPI.post("recepcao/novo_negocio/", negocio)
-      .then(() => {
+    BaseAPI.post("recepcao/novo_negocio/", values)
+      .then((res) => {
+        // setIdNegocio(res.data.id_negocio);
+        setNegocio({ ...values, id_negocio: res.data.id_negocio });
         setCarregando(false);
         handleClose();
         toast.success("Negocio Lançado!", customToastOptions);
+        novoNegocio({ ...values, id_negocio: res.data.id_negocio });
         reset();
         getNegocios();
+        lancarTarefas(true);
       })
       .catch((err) => {
         toast.error("Erro ao lançar negocio!", customToastOptions);
@@ -94,6 +100,8 @@ const ModalLancamentoNegocio = ({ getNegocios }) => {
     getUsuarios();
   }, []);
 
+  useEffect(() => {});
+
   return (
     <>
       <Button variant="success" onClick={handleShow} title="Lançar Negócio">
@@ -105,10 +113,8 @@ const ModalLancamentoNegocio = ({ getNegocios }) => {
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit(lancarNegocio)}>
-            {" "}
             <Row>
               <Col>
-                {" "}
                 <FloatingLabel
                   controlId="dataHora"
                   label="Data e hora*"
@@ -123,7 +129,6 @@ const ModalLancamentoNegocio = ({ getNegocios }) => {
                 </FloatingLabel>
               </Col>
               <Col>
-                {" "}
                 <FloatingLabel
                   controlId="clientes"
                   label="Cliente*"
@@ -149,7 +154,6 @@ const ModalLancamentoNegocio = ({ getNegocios }) => {
                 </FloatingLabel>
               </Col>
               <Col>
-                {" "}
                 <FloatingLabel
                   controlId="profissional"
                   label="Responsável*"
@@ -165,7 +169,7 @@ const ModalLancamentoNegocio = ({ getNegocios }) => {
                     <option value=""></option>
                     {usuarios.length > 0 &&
                       usuarios.map((usuario) => {
-                        if (usuario.funcao === "B") {
+                        if (usuario.funcao === "V") {
                           return (
                             <option key={usuario.id} value={usuario.id}>
                               {usuario.first_name}
@@ -178,7 +182,6 @@ const ModalLancamentoNegocio = ({ getNegocios }) => {
                 </FloatingLabel>
               </Col>
               <Col>
-                {" "}
                 <FloatingLabel
                   controlId="situacao"
                   label="Situação"
@@ -228,9 +231,7 @@ const ModalLancamentoNegocio = ({ getNegocios }) => {
                     })}
                 </Form.Select>
               </Col>
-
               <Col>
-                {" "}
                 <FloatingLabel controlId="etapa" label="Etapa" className="mb-3">
                   <Form.Select aria-label="Etapa" {...register("etapa", {})}>
                     <option value=""></option>
@@ -242,7 +243,6 @@ const ModalLancamentoNegocio = ({ getNegocios }) => {
                 </FloatingLabel>
               </Col>
               <Col>
-                {" "}
                 <FloatingLabel
                   controlId="nivel_confianca"
                   label="Nível de Confiança"

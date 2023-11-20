@@ -17,10 +17,14 @@ import BaseAPI from "../../../api/BaseAPI";
 import ModalLancamentoNegocio from "../components/ModalLancamentoNegocio";
 import ModalEditarnegocio from "../components/ModalEditarNegocio";
 import ModalExcluirNegocio from "../components/ModalExcluirNegocio";
+import ModalTarefas from "../components/ModalTarefas";
 
-function ListaProdutos() {
+function ListaNegocios() {
   const [negocios, setNegocios] = useState([{}]);
   const [carregando, setCarregando] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [novoNegocio, setNovoNegocio] = useState({});
+  const [simOuNao, setSimOuNao] = useState(false);
 
   const { register, handleSubmit } = useForm({
     defaultValues: {
@@ -77,10 +81,21 @@ function ListaProdutos() {
             </FloatingLabel>
           </Col>
           <Col sm className="mt-2">
+            <ModalTarefas
+              showModal={showModal}
+              key={showModal}
+              novoNegocio={novoNegocio}
+            />
             <Button className="mx-1">
               <ManageSearchIcon onClick={handleSubmit(getNegocios)} />
             </Button>
-            <ModalLancamentoNegocio getNegocios={getNegocios} />
+            <ModalLancamentoNegocio
+              getNegocios={getNegocios}
+              lancarTarefas={(lancar) => {
+                setShowModal(lancar);
+              }}
+              novoNegocio={(novoNegocio) => setNovoNegocio(novoNegocio)}
+            />
           </Col>
         </Row>
       </form>
@@ -121,7 +136,11 @@ function ListaProdutos() {
                           : "bg-success")
                       }
                       title={
-                        negocio.situacao==='E' ? 'Em Andamento' : negocio.situacao==='P' ? "Perdido" : 'Fechado'
+                        negocio.situacao === "E"
+                          ? "Em Andamento"
+                          : negocio.situacao === "P"
+                          ? "Perdido"
+                          : "Fechado"
                       }
                     >
                       &nbsp;
@@ -153,5 +172,5 @@ function ListaProdutos() {
   );
 }
 
-export { ListaProdutos };
-export default ListaProdutos;
+export { ListaNegocios };
+export default ListaNegocios;
