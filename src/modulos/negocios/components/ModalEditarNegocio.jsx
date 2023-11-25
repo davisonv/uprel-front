@@ -23,21 +23,12 @@ function ModalEditarnegocio(props) {
   const handleShow = () => setShow(true);
   const [negocio, setNegocio] = useState({});
   const [tarefas, setTarefas] = useState([{}]);
-  const [tarefaEdit, setTarefaEdit] = useState({
-    id_tarefa: null,
-    titulo: null,
-    data_limite: null,
-    descricao: null,
-    status: null,
-    criado_em: null,
-    id_negocio: null,
-    cliente: null,
-    responsavel: null,
-  });
+  // const [tarefasTemp, setTarefasTemp] = useState([]);
   const [clientes, setClientes] = useState([{}]);
   const [produtos, setProdutos] = useState([{}]);
   const [usuarios, setUsuarios] = useState([{}]);
   const [key, setKey] = useState("editNegocio");
+  const [keyTarefas, setKeyTarefas] = useState(0)
 
   const getClientes = () => {
     BaseAPI.get("/pessoas/lista_clientes/")
@@ -100,21 +91,21 @@ function ModalEditarnegocio(props) {
       });
   };
 
-  const editarTarefa = () => {
-    const editados = _.findIndex(tarefas, function (tarefas) {
-      return tarefas.touched == true;
-    });
-    console.log(editados);
-    // BaseAPI.patch("/recepcao/tarefa/" + props.id_negocio + "/", tarefaEdit)
-    //   .then((response) => {
-    //     console.log("atualizado", response);
-    //     props.getNegocios();
-    //     handleClose();
-    //     toast.success("Negócio editado!", customToastOptions);
-    //   })
-    //   .catch((err) => {
-    //     toast.error("Erro ao editar negócio!", customToastOptions);
-    //   });
+  const editarTarefa = (idTarefa) => {
+    const tarefa = tarefas[_.findIndex(tarefas, function (tarefas) {
+      return tarefas.id_tarefa == idTarefa;
+    })]
+    
+    BaseAPI.patch("/recepcao/tarefa/" + idTarefa + "/", tarefa)
+      .then((response) => {
+        console.log("atualizado", response);
+        props.getNegocios();
+        handleClose();
+        toast.success("Negócio editado!", customToastOptions);
+      })
+      .catch((err) => {
+        toast.error("Erro ao editar negócio!", customToastOptions);
+      });
   };
 
   const criarTarefa = (values) => {
@@ -162,118 +153,6 @@ function ModalEditarnegocio(props) {
     getUsuarios();
   }, []);
 
-  function renderList() {
-    useEffect(() => {
-      tarefas &&
-        tarefas.map((tarefa, index) => {
-          console.log("to aqui");
-          const tarefasTemp = tarefas;
-
-          return (
-            <Accordion key={tarefas}>
-              <Accordion.Item eventKey="0" key={tarefa.id_tarefa}>
-                <Accordion.Header>{tarefa.titulo}</Accordion.Header>
-                <Accordion.Body>
-                  <Form onSubmit={handleSubmit(editarTarefa)}>
-                    <Row>
-                      <Col>
-                        <FloatingLabel
-                          controlId="dataLimiteEdit"
-                          label="Data Limite*"
-                          className="mb-3"
-                        >
-                          <Form.Control
-                            type="date"
-                            required
-                            value={tarefa.data_limite}
-                            onChange={(e) =>
-                              setTarefaEdit({
-                                ...tarefaEdit,
-                                data_limite: e.target.value,
-                              })
-                            }
-                          />
-                        </FloatingLabel>
-                      </Col>
-                      <Col>
-                        <FloatingLabel
-                          controlId="tituloEdit"
-                          label="Título*"
-                          className="mb-3"
-                        >
-                          <Form.Control
-                            key={tarefa.titulo}
-                            type="text"
-                            required
-                            value={tarefa.titulo}
-                            onChange={(e) => {
-                              tarefasTemp[index].titulo = e.target.value;
-                              tarefasTemp[index].touched = true;
-                              setTarefas(tarefasTemp);
-                              console.log(tarefasTemp);
-                            }}
-                          />
-                        </FloatingLabel>
-                      </Col>
-                      <Col>
-                        <FloatingLabel
-                          controlId="statusEdit"
-                          label="Status"
-                          className="mb-3"
-                        >
-                          <Form.Select
-                            aria-label="Status"
-                            required
-                            value={tarefa.status}
-                            onChange={(e) =>
-                              setTarefaEdit({
-                                ...tarefaEdit,
-                                status: e.target.value,
-                              })
-                            }
-                          >
-                            <option value="A">Ativo</option>
-                            <option value="I">Inativo</option>
-                          </Form.Select>
-                        </FloatingLabel>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <FloatingLabel
-                          controlId="descricaoEdit"
-                          label="Descrição*"
-                          className="mb-3"
-                        >
-                          <Form.Control
-                            as="textarea"
-                            required
-                            value={tarefa.descricao}
-                            onChange={(e) =>
-                              setTarefaEdit({
-                                ...tarefaEdit,
-                                descricao: e.target.value,
-                              })
-                            }
-                            style={{ height: "100px" }}
-                          />
-                        </FloatingLabel>
-                      </Col>
-                    </Row>
-                    <Modal.Footer>
-                      <Button variant="success" type="submit">
-                        Editar
-                      </Button>
-                    </Modal.Footer>
-                  </Form>
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
-          );
-        });
-    }, [tarefas]);
-  }
-
   return (
     <>
       <Button
@@ -285,11 +164,11 @@ function ModalEditarnegocio(props) {
         <EditIcon />
       </Button>
 
-      <Modal show={show} onHide={handleClose} centered size="xl">
+      <Modal show={show} onHide={handleClose} centered size="xl" scrollable>
         <Modal.Header closeButton>
           <Modal.Title>Cadastro do negócio </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{maxHeight: '400px'}}>
           <Tabs
             id="controlled-tab-example"
             activeKey={key}
@@ -598,7 +477,123 @@ function ModalEditarnegocio(props) {
               </Accordion>
 
               {/* Listagem */}
-              {renderList()}
+              
+              {
+      tarefas &&
+        tarefas.map((tarefa, index) => {
+
+          return (
+            <Accordion>
+              <Accordion.Item eventKey="0" key={tarefa.id_tarefa}>
+                <Accordion.Header>{tarefa.titulo}</Accordion.Header>
+                <Accordion.Body>
+                  <Form>
+                    <Row>
+                      <Col>
+                        <FloatingLabel
+                          controlId="dataLimiteEdit"
+                          label="Data Limite*"
+                          className="mb-3"
+                        >
+                          <Form.Control
+                            type="date"
+                            required
+                            value={tarefa.data_limite}
+                            onChange={(e) => {
+                                const tarefasTemp = [...tarefas]
+                                tarefasTemp[index].data_limite = e.target.value
+                                tarefasTemp[index].touched = true;
+                                setTarefas(tarefasTemp);
+                                setKeyTarefas(prev => prev + 1)
+                              }
+                            }
+                          />
+                        </FloatingLabel>
+                      </Col>
+                      <Col>
+                        <FloatingLabel
+                          controlId="tituloEdit"
+                          label="Título*"
+                          className="mb-3"
+                        >
+                          <Form.Control
+                            type="text"
+                            required
+                            value={tarefa.titulo}
+                            onChange={(e) => {
+                              const tarefasTemp = [...tarefas]
+                              tarefasTemp[index].titulo = e.target.value;
+                              tarefasTemp[index].touched = true;
+                              setTarefas(tarefasTemp);
+                              setKeyTarefas(prev => prev + 1)
+                            }}
+                          />
+                        </FloatingLabel>
+                      </Col>
+                      <Col>
+                        <FloatingLabel
+                          controlId="statusEdit"
+                          label="Status"
+                          className="mb-3"
+                        >
+                          <Form.Select
+                            aria-label="Status"
+                            required
+                            value={tarefa.status}
+                            onChange={(e) =>
+                              {
+                                const tarefasTemp = [...tarefas]
+                                tarefasTemp[index].status = e.target.value
+                                tarefasTemp[index].touched = true;
+                                setTarefas(tarefasTemp);
+                                setKeyTarefas(prev => prev + 1)
+                              }
+                            }
+                          >
+                            <option value="A">Ativo</option>
+                            <option value="I">Inativo</option>
+                          </Form.Select>
+                        </FloatingLabel>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <FloatingLabel
+                          controlId="descricaoEdit"
+                          label="Descrição*"
+                          className="mb-3"
+                        >
+                          <Form.Control
+                            as="textarea"
+                            required
+                            value={tarefa.descricao}
+                            onChange={(e) =>
+                              {
+                                const tarefasTemp = [...tarefas]
+                                tarefasTemp[index].descricao = e.target.value
+                                tarefasTemp[index].touched = true;
+                                setTarefas(tarefasTemp);
+                                setKeyTarefas(prev => prev + 1)
+                              }
+                            }
+                            style={{ height: "100px" }}
+                          />
+                        </FloatingLabel>
+                      </Col>
+                    </Row>
+                    <Modal.Footer>
+                      <Button variant="success" onClick={() => editarTarefa(tarefa.id_tarefa)}>
+                        Editar
+                      </Button>
+                    </Modal.Footer>
+                  </Form>
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+          );
+        })
+    }
+
             </Tab>
           </Tabs>
         </Modal.Body>
