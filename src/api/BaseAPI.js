@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const BaseAPI = axios.create({
-    baseURL: 'http://191.101.235.127/api/v1/',
+    baseURL: 'https://api.globomktcorretora.com/api/v1/',
     
 })
 
