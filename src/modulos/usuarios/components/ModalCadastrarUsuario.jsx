@@ -116,11 +116,8 @@ const ModalCadastrarUsuario = ({ getUsuarios }) => {
                     required
                     {...register("funcao")}
                   >
-                    <option></option>
                     <option value="A">Administrador</option>
-                    <option value="B">Barbeiro</option>
-                    <option value="R">Recepcionista</option>
-                    <option value="S">Superusuario</option>
+                    <option value="V">Vendedor</option>
                   </Form.Select>
                 </FloatingLabel>
               </Col>

@@ -1,7 +1,17 @@
 import axios from 'axios'
 
+const urls =  {
+  prod: 'https://api.globomktcorretora.com/api/v1/',
+  local: 'http://localhost:8000/api/v1/',
+}
+
 const BaseAPI = axios.create({
-    baseURL: '//localhost:8000/api/v1/',
+    baseURL: urls.prod,
+    withCredentials: true,
+    headers: {
+    'Content-Type': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest',
+  },
     
 })
 
