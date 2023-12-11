@@ -77,7 +77,7 @@ const ModalLancamentoNegocio = ({
   const lancarNegocio = (values) => {
     setCarregando(true);
 
-    BaseAPI.post("recepcao/novo_negocio/", values)
+    BaseAPI.post("negocios/novo_negocio/", values)
       .then((res) => {
         // setIdNegocio(res.data.id_negocio);
         setNegocio({ ...values, id_negocio: res.data.id_negocio });

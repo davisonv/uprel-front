@@ -47,7 +47,7 @@ const ModalTarefas = ({ getNegocios, showModal, novoNegocio }) => {
     console.log(negocio);
     console.log(novoNegocio);
 
-    BaseAPI.post("recepcao/nova_tarefa/", negocio)
+    BaseAPI.post("negocios/nova_tarefa/", negocio)
       .then(() => {
         setCarregando(false);
         handleClose();

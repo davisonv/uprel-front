@@ -79,7 +79,7 @@ function ModalEditarnegocio(props) {
 
   const editar = () => {
     console.log(negocio);
-    BaseAPI.patch("/recepcao/negocio/" + props.id_negocio + "/", negocio)
+    BaseAPI.patch("/negocios/negocio/" + props.id_negocio + "/", negocio)
       .then((response) => {
         console.log("atualizado", response);
         props.getNegocios();
@@ -96,7 +96,7 @@ function ModalEditarnegocio(props) {
       return tarefas.id_tarefa == idTarefa;
     })]
     
-    BaseAPI.patch("/recepcao/tarefa/" + idTarefa + "/", tarefa)
+    BaseAPI.patch("/negocios/tarefa/" + idTarefa + "/", tarefa)
       .then((response) => {
         console.log("atualizado", response);
         props.getNegocios();
@@ -112,7 +112,7 @@ function ModalEditarnegocio(props) {
     values.id_negocio = props.id_negocio;
     values.cliente = negocio.cliente;
     values.responsavel = negocio.responsavel;
-    BaseAPI.post("recepcao/nova_tarefa/", values)
+    BaseAPI.post("negocios/nova_tarefa/", values)
       .then(() => {
         toast.success("Tarefa Lançada!", customToastOptions);
         reset();
@@ -125,7 +125,7 @@ function ModalEditarnegocio(props) {
 
   function getNegocio() {
     handleShow();
-    BaseAPI.get("/recepcao/negocio/" + props.id_negocio)
+    BaseAPI.get("/negocios/negocio/" + props.id_negocio)
       .then((response) => {
         const { data } = response;
         setNegocio(data);
@@ -137,7 +137,7 @@ function ModalEditarnegocio(props) {
   }
 
   function getTarefas() {
-    BaseAPI.get("/recepcao/lista_tarefas_negocio/" + props.id_negocio)
+    BaseAPI.get("/negocios/lista_tarefas_negocio/" + props.id_negocio)
       .then((response) => {
         const { data } = response;
         setTarefas(data.results);
