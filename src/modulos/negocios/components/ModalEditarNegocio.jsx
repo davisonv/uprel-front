@@ -31,7 +31,7 @@ function ModalEditarnegocio(props) {
   const [keyTarefas, setKeyTarefas] = useState(0)
 
   const getClientes = () => {
-    BaseAPI.get("/pessoas/lista_clientes/")
+    BaseAPI.get("/clientes/lista_clientes/")
       .then((response) => {
         const { data } = response;
         setClientes(data.results);

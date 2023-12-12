@@ -28,7 +28,7 @@ function ModalExcluirEmpresa(props) {
 
   const excluir = () => {
     const updatedEmpresa = { ...empresa, status: "I" };
-    BaseAPI.patch("/empresas/empresa/" + props.idEmpresa + "/", updatedEmpresa)
+    BaseAPI.patch("/clientes/empresa/" + props.idEmpresa + "/", updatedEmpresa)
       .then((response) => {
         props.getEmpresas();
         handleClose();
@@ -41,7 +41,7 @@ function ModalExcluirEmpresa(props) {
 
   function getEmpresa() {
     handleShow();
-    BaseAPI.get("/empresas/empresa/" + props.idEmpresa)
+    BaseAPI.get("/clientes/empresa/" + props.idEmpresa)
       .then((response) => {
         const { data } = response;
         setEmpresa(data);

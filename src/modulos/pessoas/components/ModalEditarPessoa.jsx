@@ -29,7 +29,7 @@ function ModalEditarPessoa(props) {
   };
 
   const editar = () => {
-    BaseAPI.patch("/pessoas/pessoa/" + props.idPessoa + "/", pessoa)
+    BaseAPI.patch("/clientes/pessoa/" + props.idPessoa + "/", pessoa)
       .then((response) => {
         props.getPessoas();
         handleClose();
@@ -42,7 +42,7 @@ function ModalEditarPessoa(props) {
 
   function getPessoa() {
     handleShow();
-    BaseAPI.get("/pessoas/pessoa/" + props.idPessoa)
+    BaseAPI.get("/clientes/pessoa/" + props.idPessoa)
       .then((response) => {
         const { data } = response;
         setPessoa(data);
@@ -53,7 +53,7 @@ function ModalEditarPessoa(props) {
       });
   }
   const getEmpresas = (values) => {
-    BaseAPI.get("/empresas/lista_empresas/", {
+    BaseAPI.get("/clientes/lista_empresas/", {
       params: {
         nome: values ? values.query : null,
       },

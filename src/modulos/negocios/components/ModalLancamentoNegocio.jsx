@@ -40,7 +40,7 @@ const ModalLancamentoNegocio = ({
 
   const getClientes = () => {
     setCarregando(true);
-    BaseAPI.get("/pessoas/lista_clientes/")
+    BaseAPI.get("/clientes/lista_clientes/")
       .then((response) => {
         const { data } = response;
         setClientes(data.results);

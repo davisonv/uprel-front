@@ -6,7 +6,7 @@ const urls =  {
 }
 
 const BaseAPI = axios.create({
-    baseURL: urls.prod,
+    baseURL: urls.local,
     withCredentials: true,
     headers: {
     'Content-Type': 'application/json',

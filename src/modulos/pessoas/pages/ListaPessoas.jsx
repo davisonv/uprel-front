@@ -30,7 +30,7 @@ function ListaPessoas() {
 
   const getPessoas = (values) => {
     setCarregando(true);
-    BaseAPI.get("/pessoas/lista_pessoas/", {
+    BaseAPI.get("/clientes/lista_pessoas/", {
       params: {
         nome: values ? values.query : null,
       },
