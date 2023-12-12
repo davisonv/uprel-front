@@ -37,7 +37,7 @@ function ModalCadastrarPessoa({ getPessoas }) {
     ) {
       toast.danger("Preencha os dados obrigatórios !", customToastOptions);
     } else {
-      BaseAPI.post("pessoas/novo_pessoa/", dados)
+      BaseAPI.post("clientes/novo_pessoa/", dados)
         .then(() => {
           setCarregando(false);
           handleClose();
@@ -52,7 +52,7 @@ function ModalCadastrarPessoa({ getPessoas }) {
   };
   const getEmpresas = (values) => {
     setCarregando(true);
-    BaseAPI.get("/empresas/lista_empresas/", {
+    BaseAPI.get("/clientes/lista_empresas/", {
       params: {
         nome: values ? values.query : null,
       },

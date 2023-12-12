@@ -28,7 +28,7 @@ function ModalExcluir(props) {
 
   const excluir = () => {
     const updatedPessoa = { ...pessoa, status: "I" };
-    BaseAPI.patch("/pessoas/pessoa/" + props.idPessoa + "/", updatedPessoa)
+    BaseAPI.patch("/clientes/pessoa/" + props.idPessoa + "/", updatedPessoa)
       .then((response) => {
         props.getPessoas();
         handleClose();
@@ -41,7 +41,7 @@ function ModalExcluir(props) {
 
   function getPessoa() {
     handleShow();
-    BaseAPI.get("/pessoas/pessoa/" + props.idPessoa)
+    BaseAPI.get("/clientes/pessoa/" + props.idPessoa)
       .then((response) => {
         const { data } = response;
         setPessoa(data);

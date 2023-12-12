@@ -28,7 +28,7 @@ function ModalEditarEmpresa(props) {
   };
 
   const editar = () => {
-    BaseAPI.patch("/empresas/empresa/" + props.idEmpresa + "/", empresa)
+    BaseAPI.patch("/clientes/empresa/" + props.idEmpresa + "/", empresa)
       .then((response) => {
         props.getEmpresas();
         handleClose();
@@ -41,7 +41,7 @@ function ModalEditarEmpresa(props) {
 
   function getEmpresa() {
     handleShow();
-    BaseAPI.get("/empresas/empresa/" + props.idEmpresa)
+    BaseAPI.get("/clientes/empresa/" + props.idEmpresa)
       .then((response) => {
         const { data } = response;
         setEmpresa(data);

@@ -32,7 +32,7 @@ function ModalCadastrarEmpresa({ getEmpresas }) {
     if (!dados.nome || !dados.telefone || !dados.cnpj) {
       toast.danger("Preencha os dados obrigatórios !", customToastOptions);
     } else {
-      BaseAPI.post("empresas/novo_empresa/", dados)
+      BaseAPI.post("clientes/novo_empresa/", dados)
         .then(() => {
           setCarregando(false);
           handleClose();

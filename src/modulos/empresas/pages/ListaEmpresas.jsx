@@ -30,7 +30,7 @@ function ListaEmpresas() {
 
   const getEmpresas = (values) => {
     setCarregando(true);
-    BaseAPI.get("/empresas/lista_empresas/", {
+    BaseAPI.get("/clientes/lista_empresas/", {
       params: {
         nome: values ? values.query : null,
       },

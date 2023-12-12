@@ -34,7 +34,7 @@ function ListaNegocios() {
 
   const getNegocios = (values) => {
     setCarregando(true);
-    BaseAPI.get("/recepcao/lista_negocios/", {
+    BaseAPI.get("/negocios/lista_negocios/", {
       params: {
         atendente: values ? values.query : null,
       },
