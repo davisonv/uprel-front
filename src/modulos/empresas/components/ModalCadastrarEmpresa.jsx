@@ -5,6 +5,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import BaseAPI from "../../../api/BaseAPI";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 function ModalCadastrarEmpresa({ getEmpresas }) {
   const [show, setShow] = useState(false);
@@ -45,13 +46,36 @@ function ModalCadastrarEmpresa({ getEmpresas }) {
       getEmpresas();
     }
   };
+  const [endereco_cep, setCep] = useState("");
+  const [endereco_rua, setRua] = useState("");
+  const [endereco_bairro, setBairro] = useState("");
+  const [endereco_cidade, setCidade] = useState("");
+  const [endereco_uf, setUf] = useState("");
+
+  const buscaCep = (event) => {
+    const novoCep = event.target.value;
+    setCep(novoCep);
+    if (novoCep.length === 8) {
+      axios
+        .get(`https://viacep.com.br/ws/${novoCep}/json`)
+        .then((response) => {
+          setRua(response.data.logradouro);
+          setBairro(response.data.bairro);
+          setCidade(response.data.localidade);
+          setUf(response.data.uf);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
 
   return (
     <>
       <Button variant="success" onClick={handleShow} title="Cadastrar Empresa">
         <PersonAddIcon />
       </Button>
-      <Modal show={show} onHide={handleClose} centered size="lg">
+      <Modal show={show} onHide={handleClose} centered size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Cadastro de empresa </Modal.Title>
         </Modal.Header>
@@ -121,6 +145,92 @@ function ModalCadastrarEmpresa({ getEmpresas }) {
                     {...register("email", {
                       required: "Este campo é obrigatório",
                     })}
+                  />
+                </FloatingLabel>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <FloatingLabel
+                  controlId="cepInput"
+                  label="CEP"
+                  htmlFor="cepInput"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="text"
+                    maxLength={8}
+                    {...register("endereco_cep")}
+                    onChange={buscaCep}
+                    value={endereco_cep}
+                    id="cepInput"
+                  />
+                </FloatingLabel>
+              </Col>
+              <Col>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="Rua"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="text"
+                    maxLength={256}
+                    {...register("endereco_rua")}
+                    value={endereco_rua}
+                  />
+                </FloatingLabel>
+              </Col>
+              <Col>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="N°"
+                  className="mb-3"
+                >
+                  <Form.Control type="text" {...register("endereco_numero")} />
+                </FloatingLabel>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="Bairro"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="text"
+                    maxLength={256}
+                    {...register("endereco_bairro")}
+                    value={endereco_bairro}
+                  />
+                </FloatingLabel>
+              </Col>
+              <Col>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="Cidade"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="text"
+                    maxLength={256}
+                    {...register("endereco_cidade")}
+                    value={endereco_cidade}
+                  />
+                </FloatingLabel>
+              </Col>
+              <Col>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="UF"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="text"
+                    maxLength={256}
+                    {...register("endereco_uf")}
+                    value={endereco_uf}
                   />
                 </FloatingLabel>
               </Col>

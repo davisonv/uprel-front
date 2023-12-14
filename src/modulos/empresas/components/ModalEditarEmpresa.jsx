@@ -5,6 +5,7 @@ import BaseAPI from "../../../api/BaseAPI";
 import EditIcon from "@mui/icons-material/Edit";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 function ModalEditarEmpresa(props) {
   const [show, setShow] = useState(false);
@@ -52,6 +53,30 @@ function ModalEditarEmpresa(props) {
       });
   }
 
+  const [cep, setCep] = useState("");
+
+  const buscaCep = (event) => {
+    const novoCep = event.target.value;
+    setCep(novoCep);
+    if (novoCep.length === 8) {
+      axios
+        .get(`https://viacep.com.br/ws/${novoCep}/json`)
+        .then((response) => {
+          setEmpresa({
+            ...empresa,
+            endereco_cep: novoCep,
+            endereco_rua: response.data.logradouro,
+            endereco_bairro: response.data.bairro,
+            endereco_cidade: response.data.localidade,
+            endereco_uf: response.data.uf,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
   return (
     <>
       <Button
@@ -63,7 +88,7 @@ function ModalEditarEmpresa(props) {
         <EditIcon />
       </Button>
 
-      <Modal show={show} onHide={handleClose} centered size="lg">
+      <Modal show={show} onHide={handleClose} centered size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Cadastro da empresa </Modal.Title>
         </Modal.Header>
@@ -144,6 +169,126 @@ function ModalEditarEmpresa(props) {
                       setEmpresa({
                         ...empresa,
                         email: e.target.value,
+                      })
+                    }
+                  />
+                </FloatingLabel>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <FloatingLabel
+                  controlId="cepInput"
+                  label="CEP"
+                  htmlFor="cepInput"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="text"
+                    maxLength={8}
+                    value={empresa.endereco_cep}
+                    onChange={(e) => {
+                      setEmpresa({
+                        ...empresa,
+                        endereco_cep: e.target.value,
+                      });
+                      buscaCep(e);
+                    }}
+                  />
+                </FloatingLabel>
+              </Col>
+              <Col>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="Rua"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="text"
+                    maxLength={256}
+                    value={empresa.endereco_rua}
+                    onChange={(e) =>
+                      setEmpresa({
+                        ...empresa,
+                        endereco_rua: e.target.value,
+                      })
+                    }
+                  />
+                </FloatingLabel>
+              </Col>
+              <Col>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="N°"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="text"
+                    maxLength={10}
+                    value={empresa.endereco_numero}
+                    onChange={(e) =>
+                      setEmpresa({
+                        ...empresa,
+                        endereco_numero: e.target.value,
+                      })
+                    }
+                  />
+                </FloatingLabel>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="Bairro"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="text"
+                    maxLength={256}
+                    value={empresa.endereco_bairro}
+                    onChange={(e) =>
+                      setEmpresa({
+                        ...empresa,
+                        endereco_bairro: e.target.value,
+                      })
+                    }
+                  />
+                </FloatingLabel>
+              </Col>
+              <Col>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="Cidade"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="text"
+                    maxLength={256}
+                    value={empresa.endereco_cidade}
+                    onChange={(e) =>
+                      setEmpresa({
+                        ...empresa,
+                        endereco_cidade: e.target.value,
+                      })
+                    }
+                  />
+                </FloatingLabel>
+              </Col>
+              <Col>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="UF"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="text"
+                    maxLength={2}
+                    value={empresa.endereco_uf}
+                    onChange={(e) =>
+                      setEmpresa({
+                        ...empresa,
+                        endereco_uf: e.target.value,
                       })
                     }
                   />

@@ -28,7 +28,7 @@ function ModalEditarnegocio(props) {
   const [produtos, setProdutos] = useState([{}]);
   const [usuarios, setUsuarios] = useState([{}]);
   const [key, setKey] = useState("editNegocio");
-  const [keyTarefas, setKeyTarefas] = useState(0)
+  const [keyTarefas, setKeyTarefas] = useState(0);
 
   const getClientes = () => {
     BaseAPI.get("/clientes/lista_clientes/")
@@ -92,10 +92,13 @@ function ModalEditarnegocio(props) {
   };
 
   const editarTarefa = (idTarefa) => {
-    const tarefa = tarefas[_.findIndex(tarefas, function (tarefas) {
-      return tarefas.id_tarefa == idTarefa;
-    })]
-    
+    const tarefa =
+      tarefas[
+        _.findIndex(tarefas, function (tarefas) {
+          return tarefas.id_tarefa == idTarefa;
+        })
+      ];
+
     BaseAPI.patch("/negocios/tarefa/" + idTarefa + "/", tarefa)
       .then((response) => {
         console.log("atualizado", response);
@@ -168,7 +171,7 @@ function ModalEditarnegocio(props) {
         <Modal.Header closeButton>
           <Modal.Title>Cadastro do negócio </Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{maxHeight: '400px'}}>
+        <Modal.Body style={{ maxHeight: "400px" }}>
           <Tabs
             id="controlled-tab-example"
             activeKey={key}
@@ -176,8 +179,7 @@ function ModalEditarnegocio(props) {
             className="mb-3"
           >
             <Tab eventKey="editNegocio" title="Editar Negócio">
-              {" "}
-              <Form onSubmit={handleSubmit(editar)}>
+              <Form>
                 <Row>
                   <Col>
                     <FloatingLabel
@@ -212,7 +214,6 @@ function ModalEditarnegocio(props) {
                           setNegocio({ ...negocio, cliente: e.target.value })
                         }
                       >
-                        <option value=""></option>
                         {clientes.length > 0 &&
                           clientes.map((cliente) => {
                             return (
@@ -241,7 +242,6 @@ function ModalEditarnegocio(props) {
                           })
                         }
                       >
-                        <option value=""></option>
                         {usuarios.length > 0 &&
                           usuarios.map((usuario) => {
                             return (
@@ -267,7 +267,6 @@ function ModalEditarnegocio(props) {
                           setNegocio({ ...negocio, situacao: e.target.value })
                         }
                       >
-                        <option value=""></option>
                         <option value="E" style={{ color: "orange" }}>
                           Em andamento
                         </option>
@@ -323,7 +322,6 @@ function ModalEditarnegocio(props) {
                           setNegocio({ ...negocio, etapa: e.target.value })
                         }
                       >
-                        <option value=""></option>
                         <option value="PRO">Prospecção</option>
                         <option value="PRE">Pré-cadastro</option>
                         <option value="ASS">Assinatura</option>
@@ -388,7 +386,7 @@ function ModalEditarnegocio(props) {
                   <Button variant="danger" onClick={handleClose}>
                     Cancelar
                   </Button>
-                  <Button variant="success" type="submit">
+                  <Button variant="success" onClick={() => editar()}>
                     Editar
                   </Button>
                 </Modal.Footer>
@@ -432,6 +430,8 @@ function ModalEditarnegocio(props) {
                             />
                           </FloatingLabel>
                         </Col>
+                      </Row>
+                      <Row>
                         <Col>
                           <FloatingLabel
                             controlId="descricaoEdit"
@@ -477,123 +477,121 @@ function ModalEditarnegocio(props) {
               </Accordion>
 
               {/* Listagem */}
-              
-              {
-      tarefas &&
-        tarefas.map((tarefa, index) => {
 
-          return (
-            <Accordion>
-              <Accordion.Item eventKey="0" key={tarefa.id_tarefa}>
-                <Accordion.Header>{tarefa.titulo}</Accordion.Header>
-                <Accordion.Body>
-                  <Form>
-                    <Row>
-                      <Col>
-                        <FloatingLabel
-                          controlId="dataLimiteEdit"
-                          label="Data Limite*"
-                          className="mb-3"
-                        >
-                          <Form.Control
-                            type="date"
-                            required
-                            value={tarefa.data_limite}
-                            onChange={(e) => {
-                                const tarefasTemp = [...tarefas]
-                                tarefasTemp[index].data_limite = e.target.value
-                                tarefasTemp[index].touched = true;
-                                setTarefas(tarefasTemp);
-                                setKeyTarefas(prev => prev + 1)
-                              }
-                            }
-                          />
-                        </FloatingLabel>
-                      </Col>
-                      <Col>
-                        <FloatingLabel
-                          controlId="tituloEdit"
-                          label="Título*"
-                          className="mb-3"
-                        >
-                          <Form.Control
-                            type="text"
-                            required
-                            value={tarefa.titulo}
-                            onChange={(e) => {
-                              const tarefasTemp = [...tarefas]
-                              tarefasTemp[index].titulo = e.target.value;
-                              tarefasTemp[index].touched = true;
-                              setTarefas(tarefasTemp);
-                              setKeyTarefas(prev => prev + 1)
-                            }}
-                          />
-                        </FloatingLabel>
-                      </Col>
-                      <Col>
-                        <FloatingLabel
-                          controlId="statusEdit"
-                          label="Status"
-                          className="mb-3"
-                        >
-                          <Form.Select
-                            aria-label="Status"
-                            required
-                            value={tarefa.status}
-                            onChange={(e) =>
-                              {
-                                const tarefasTemp = [...tarefas]
-                                tarefasTemp[index].status = e.target.value
-                                tarefasTemp[index].touched = true;
-                                setTarefas(tarefasTemp);
-                                setKeyTarefas(prev => prev + 1)
-                              }
-                            }
-                          >
-                            <option value="A">Ativo</option>
-                            <option value="I">Inativo</option>
-                          </Form.Select>
-                        </FloatingLabel>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <FloatingLabel
-                          controlId="descricaoEdit"
-                          label="Descrição*"
-                          className="mb-3"
-                        >
-                          <Form.Control
-                            as="textarea"
-                            required
-                            value={tarefa.descricao}
-                            onChange={(e) =>
-                              {
-                                const tarefasTemp = [...tarefas]
-                                tarefasTemp[index].descricao = e.target.value
-                                tarefasTemp[index].touched = true;
-                                setTarefas(tarefasTemp);
-                                setKeyTarefas(prev => prev + 1)
-                              }
-                            }
-                            style={{ height: "100px" }}
-                          />
-                        </FloatingLabel>
-                      </Col>
-                    </Row>
-                    <Modal.Footer>
-                      <Button variant="success" onClick={() => editarTarefa(tarefa.id_tarefa)}>
-                        Editar
-                      </Button>
-                    </Modal.Footer>
-                  </Form>
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
-          );
-        })
-    }
-
+              {tarefas &&
+                tarefas.map((tarefa, index) => {
+                  return (
+                    <Accordion>
+                      <Accordion.Item eventKey="0" key={tarefa.id_tarefa}>
+                        <Accordion.Header>{tarefa.titulo}</Accordion.Header>
+                        <Accordion.Body>
+                          <Form>
+                            <Row>
+                              <Col>
+                                <FloatingLabel
+                                  controlId="dataLimiteEdit"
+                                  label="Data Limite*"
+                                  className="mb-3"
+                                >
+                                  <Form.Control
+                                    type="date"
+                                    required
+                                    value={tarefa.data_limite}
+                                    onChange={(e) => {
+                                      const tarefasTemp = [...tarefas];
+                                      tarefasTemp[index].data_limite =
+                                        e.target.value;
+                                      tarefasTemp[index].touched = true;
+                                      setTarefas(tarefasTemp);
+                                      setKeyTarefas((prev) => prev + 1);
+                                    }}
+                                  />
+                                </FloatingLabel>
+                              </Col>
+                              <Col>
+                                <FloatingLabel
+                                  controlId="tituloEdit"
+                                  label="Título*"
+                                  className="mb-3"
+                                >
+                                  <Form.Control
+                                    type="text"
+                                    required
+                                    value={tarefa.titulo}
+                                    onChange={(e) => {
+                                      const tarefasTemp = [...tarefas];
+                                      tarefasTemp[index].titulo =
+                                        e.target.value;
+                                      tarefasTemp[index].touched = true;
+                                      setTarefas(tarefasTemp);
+                                      setKeyTarefas((prev) => prev + 1);
+                                    }}
+                                  />
+                                </FloatingLabel>
+                              </Col>
+                              <Col>
+                                <FloatingLabel
+                                  controlId="statusEdit"
+                                  label="Status"
+                                  className="mb-3"
+                                >
+                                  <Form.Select
+                                    aria-label="Status"
+                                    required
+                                    value={tarefa.status}
+                                    onChange={(e) => {
+                                      const tarefasTemp = [...tarefas];
+                                      tarefasTemp[index].status =
+                                        e.target.value;
+                                      tarefasTemp[index].touched = true;
+                                      setTarefas(tarefasTemp);
+                                      setKeyTarefas((prev) => prev + 1);
+                                    }}
+                                  >
+                                    <option value="A">Ativo</option>
+                                    <option value="I">Inativo</option>
+                                  </Form.Select>
+                                </FloatingLabel>
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col>
+                                <FloatingLabel
+                                  controlId="descricaoEdit"
+                                  label="Descrição*"
+                                  className="mb-3"
+                                >
+                                  <Form.Control
+                                    as="textarea"
+                                    required
+                                    value={tarefa.descricao}
+                                    onChange={(e) => {
+                                      const tarefasTemp = [...tarefas];
+                                      tarefasTemp[index].descricao =
+                                        e.target.value;
+                                      tarefasTemp[index].touched = true;
+                                      setTarefas(tarefasTemp);
+                                      setKeyTarefas((prev) => prev + 1);
+                                    }}
+                                    style={{ height: "100px" }}
+                                  />
+                                </FloatingLabel>
+                              </Col>
+                            </Row>
+                            <Modal.Footer>
+                              <Button
+                                variant="success"
+                                onClick={() => editarTarefa(tarefa.id_tarefa)}
+                              >
+                                Editar
+                              </Button>
+                            </Modal.Footer>
+                          </Form>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                    </Accordion>
+                  );
+                })}
             </Tab>
           </Tabs>
         </Modal.Body>
