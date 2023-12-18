@@ -5,6 +5,7 @@ import BaseAPI from "../../../api/BaseAPI";
 import EditIcon from "@mui/icons-material/Edit";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 function ModalEditarPessoa(props) {
   const [show, setShow] = useState(false);
@@ -67,6 +68,29 @@ function ModalEditarPessoa(props) {
       });
   };
 
+  const [cep, setCep] = useState("");
+
+  const buscaCep = (event) => {
+    const novoCep = event.target.value;
+    setCep(novoCep);
+    if (novoCep.length === 8) {
+      axios
+        .get(`https://viacep.com.br/ws/${novoCep}/json`)
+        .then((response) => {
+          setPessoa({
+            ...pessoa,
+            endereco_cep: novoCep,
+            endereco_rua: response.data.logradouro,
+            endereco_bairro: response.data.bairro,
+            endereco_cidade: response.data.localidade,
+            endereco_uf: response.data.uf,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
   useEffect(() => {
     getEmpresas();
   }, []);
@@ -81,7 +105,7 @@ function ModalEditarPessoa(props) {
         <EditIcon />
       </Button>
 
-      <Modal show={show} onHide={handleClose} centered size="lg">
+      <Modal show={show} onHide={handleClose} centered size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Cadastro da pessoa </Modal.Title>
         </Modal.Header>
@@ -183,6 +207,126 @@ function ModalEditarPessoa(props) {
                       setPessoa({
                         ...pessoa,
                         email: e.target.value,
+                      })
+                    }
+                  />
+                </FloatingLabel>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <FloatingLabel
+                  controlId="cepInput"
+                  label="CEP"
+                  htmlFor="cepInput"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="text"
+                    maxLength={8}
+                    value={pessoa.endereco_cep}
+                    onChange={(e) => {
+                      setPessoa({
+                        ...pessoa,
+                        endereco_cep: e.target.value,
+                      });
+                      buscaCep(e);
+                    }}
+                  />
+                </FloatingLabel>
+              </Col>
+              <Col>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="Rua"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="text"
+                    maxLength={256}
+                    value={pessoa.endereco_rua}
+                    onChange={(e) =>
+                      setPessoa({
+                        ...pessoa,
+                        endereco_rua: e.target.value,
+                      })
+                    }
+                  />
+                </FloatingLabel>
+              </Col>
+              <Col>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="N°"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="text"
+                    maxLength={10}
+                    value={pessoa.endereco_numero}
+                    onChange={(e) =>
+                      setPessoa({
+                        ...pessoa,
+                        endereco_numero: e.target.value,
+                      })
+                    }
+                  />
+                </FloatingLabel>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="Bairro"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="text"
+                    maxLength={256}
+                    value={pessoa.endereco_bairro}
+                    onChange={(e) =>
+                      setPessoa({
+                        ...pessoa,
+                        endereco_bairro: e.target.value,
+                      })
+                    }
+                  />
+                </FloatingLabel>
+              </Col>
+              <Col>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="Cidade"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="text"
+                    maxLength={256}
+                    value={pessoa.endereco_cidade}
+                    onChange={(e) =>
+                      setPessoa({
+                        ...pessoa,
+                        endereco_cidade: e.target.value,
+                      })
+                    }
+                  />
+                </FloatingLabel>
+              </Col>
+              <Col>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="UF"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="text"
+                    maxLength={2}
+                    value={pessoa.endereco_uf}
+                    onChange={(e) =>
+                      setPessoa({
+                        ...pessoa,
+                        endereco_uf: e.target.value,
                       })
                     }
                   />
