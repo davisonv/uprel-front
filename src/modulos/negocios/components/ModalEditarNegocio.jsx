@@ -346,7 +346,6 @@ function ModalEditarnegocio(props) {
                           })
                         }
                       >
-                        <option value=""></option>
                         <option value="1" className="text-danger">
                           1
                         </option>
@@ -354,7 +353,7 @@ function ModalEditarnegocio(props) {
                           2
                         </option>
                         <option value="3" className="text-danger">
-                          4
+                          3
                         </option>
                         <option value="4" className="text-danger">
                           4
@@ -430,23 +429,6 @@ function ModalEditarnegocio(props) {
                             />
                           </FloatingLabel>
                         </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <FloatingLabel
-                            controlId="descricaoEdit"
-                            label="Descrição*"
-                            className="mb-3"
-                          >
-                            <Form.Control
-                              type="text"
-                              required
-                              {...register("descricao", {
-                                required: "Este campo é obrigatório",
-                              })}
-                            />
-                          </FloatingLabel>
-                        </Col>
                         <Col>
                           <FloatingLabel
                             controlId="statusEdit"
@@ -463,6 +445,24 @@ function ModalEditarnegocio(props) {
                               <option value="A">Ativo</option>
                               <option value="I">Inativo</option>
                             </Form.Select>
+                          </FloatingLabel>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <FloatingLabel
+                            controlId="descricaoEdit"
+                            label="Descrição*"
+                            className="mb-3"
+                          >
+                            <Form.Control
+                              as="textarea"
+                              required
+                              {...register("descricao", {
+                                required: "Este campo é obrigatório",
+                              })}
+                              style={{ height: "100px" }}
+                            />
                           </FloatingLabel>
                         </Col>
                       </Row>

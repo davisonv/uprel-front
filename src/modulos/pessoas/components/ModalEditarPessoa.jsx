@@ -369,7 +369,7 @@ function ModalEditarPessoa(props) {
                       })
                     }
                   >
-                    <option value=""></option>
+           
                     {empresas.length > 0 &&
                       empresas.map((empresa) => {
                         return (
