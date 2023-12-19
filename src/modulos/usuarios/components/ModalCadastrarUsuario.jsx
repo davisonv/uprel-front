@@ -116,6 +116,7 @@ const ModalCadastrarUsuario = ({ getUsuarios }) => {
                     required
                     {...register("funcao")}
                   >
+                    <option value="">Selecione...</option>
                     <option value="A">Administrador</option>
                     <option value="V">Vendedor</option>
                   </Form.Select>

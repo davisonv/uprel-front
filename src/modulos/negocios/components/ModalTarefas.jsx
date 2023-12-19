@@ -140,7 +140,8 @@ const ModalTarefas = ({ getNegocios, showModal, novoNegocio }) => {
                         {...register("status", {
                           required: "Este campo é obrigatório",
                         })}
-                      >                        
+                      >         
+                        <option value="">Selecione...</option>               
                         <option value="A">Ativo</option>
                         <option value="I">Inativo</option>
                       </Form.Select>
