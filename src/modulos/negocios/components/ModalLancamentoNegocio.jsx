@@ -141,6 +141,7 @@ const ModalLancamentoNegocio = ({
                       required: "Este campo é obrigatório",
                     })}
                   >
+                    <option value="">Selecione...</option>
                     {clientes.length > 0 &&
                       clientes.map((cliente) => {
                         return (
@@ -165,6 +166,7 @@ const ModalLancamentoNegocio = ({
                       required: "Este campo é obrigatório",
                     })}
                   >
+                    <option value="">Selecione...</option>
                     {usuarios.length > 0 &&
                       usuarios.map((usuario) => {
                         if (usuario.funcao === "V") {
@@ -189,6 +191,7 @@ const ModalLancamentoNegocio = ({
                     aria-label="Situação"
                     {...register("situacao", {})}
                   >
+                    <option value="">Selecione...</option>
                     <option value="E" style={{ color: "orange" }}>
                       Em andamento
                     </option>
@@ -231,6 +234,7 @@ const ModalLancamentoNegocio = ({
               <Col>
                 <FloatingLabel controlId="etapa" label="Etapa" className="mb-3">
                   <Form.Select aria-label="Etapa" {...register("etapa", {})}>
+                    <option value="">Selecione...</option>
                     <option value="PRO">Prospecção</option>
                     <option value="PRE">Pré-cadastro</option>
                     <option value="ASS">Assinatura</option>
@@ -248,6 +252,7 @@ const ModalLancamentoNegocio = ({
                     aria-label="Nível de Confiança"
                     {...register("nivel_confianca", {})}
                   >
+                    <option value="">Selecione...</option>
                     <option value="1" className="text-danger">
                       1
                     </option>

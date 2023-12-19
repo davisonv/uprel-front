@@ -128,6 +128,7 @@ function ModalEditarUsuario(props) {
                       setUsuario({ ...usuario, funcao: e.target.value })
                     }
                   >
+                    <option value="">Selecione...</option>
                     <option value="A">Administrador</option>
                     <option value="V">Vendedor</option>
                   </Form.Select>
@@ -147,6 +148,7 @@ function ModalEditarUsuario(props) {
                   setUsuario({ ...usuario, is_active: e.target.value })
                 }
               >
+                <option value="">Selecione...</option>
                 <option value={true}>Ativo</option>
                 <option value={false}>Inativo</option>
               </Form.Select>

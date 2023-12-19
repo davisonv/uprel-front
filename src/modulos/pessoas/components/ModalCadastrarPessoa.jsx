@@ -290,6 +290,7 @@ function ModalCadastrarPessoa({ getPessoas }) {
                   className="mb-3"
                 >
                   <Form.Select aria-label="Empresa" {...register("empresa")}>
+                    <option value="">Selecione...</option>
                     {empresas.length > 0 &&
                       empresas.map((empresa) => {
                         return (

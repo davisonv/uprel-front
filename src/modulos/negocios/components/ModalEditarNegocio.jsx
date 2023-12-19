@@ -214,6 +214,7 @@ function ModalEditarnegocio(props) {
                           setNegocio({ ...negocio, cliente: e.target.value })
                         }
                       >
+                        <option value="">Selecione...</option>
                         {clientes.length > 0 &&
                           clientes.map((cliente) => {
                             return (
@@ -242,6 +243,7 @@ function ModalEditarnegocio(props) {
                           })
                         }
                       >
+                        <option value="">Selecione...</option>
                         {usuarios.length > 0 &&
                           usuarios.map((usuario) => {
                             return (
@@ -267,6 +269,7 @@ function ModalEditarnegocio(props) {
                           setNegocio({ ...negocio, situacao: e.target.value })
                         }
                       >
+                        <option value="">Selecione...</option>
                         <option value="E" style={{ color: "orange" }}>
                           Em andamento
                         </option>
@@ -322,6 +325,7 @@ function ModalEditarnegocio(props) {
                           setNegocio({ ...negocio, etapa: e.target.value })
                         }
                       >
+                        <option value="">Selecione...</option>
                         <option value="PRO">Prospecção</option>
                         <option value="PRE">Pré-cadastro</option>
                         <option value="ASS">Assinatura</option>
@@ -346,6 +350,7 @@ function ModalEditarnegocio(props) {
                           })
                         }
                       >
+                        <option value="">Selecione...</option>
                         <option value="1" className="text-danger">
                           1
                         </option>
@@ -442,6 +447,7 @@ function ModalEditarnegocio(props) {
                                 required: "Este campo é obrigatório",
                               })}
                             >
+                              <option value="">Selecione...</option>
                               <option value="A">Ativo</option>
                               <option value="I">Inativo</option>
                             </Form.Select>
