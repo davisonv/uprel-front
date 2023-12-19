@@ -28,6 +28,7 @@ function ModalEditarUsuario(props) {
   };
 
   const editar = () => {
+    console.log(usuario);
     BaseAPI.patch("/usuarios/" + props.idUsuario + "/", usuario)
       .then((response) => {
         props.getUsuarios();
@@ -146,8 +147,8 @@ function ModalEditarUsuario(props) {
                   setUsuario({ ...usuario, is_active: e.target.value })
                 }
               >
-                <option value="True">Ativo</option>
-                <option value="False">Inativo</option>
+                <option value={true}>Ativo</option>
+                <option value={false}>Inativo</option>
               </Form.Select>
             </FloatingLabel>
 

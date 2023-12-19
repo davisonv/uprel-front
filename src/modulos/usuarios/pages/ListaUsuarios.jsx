@@ -96,10 +96,8 @@ function ListaUsuarios() {
                   <td>
                     {usuario.funcao === "A"
                       ? "Administrador"
-                      : usuario.funcao === "B"
-                      ? "Barbeiro"
-                      : usuario.funcao === "R"
-                      ? "Recepcionista"
+                      : usuario.funcao === "V"
+                      ? "Vendedor"
                       : usuario.funcao === "S"
                       ? "Superusuario"
                       : ""}
