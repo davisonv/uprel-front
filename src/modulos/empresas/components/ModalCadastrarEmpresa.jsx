@@ -12,8 +12,9 @@ function ModalCadastrarEmpresa({ getEmpresas }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [carregando, setCarregando] = useState(false);
+  const [endereco_cep, setCep] = useState("");
 
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, setValue } = useForm();
 
   const customToastOptions = {
     position: "bottom-right", // Posição onde as notificações serão exibidas
@@ -39,18 +40,13 @@ function ModalCadastrarEmpresa({ getEmpresas }) {
           handleClose();
           toast.success("Empresa cadastrada!", customToastOptions);
           reset();
+          getEmpresas();
         })
         .catch((err) => {
           toast.error("Erro ao cadastrar empresa !", customToastOptions);
         });
-      getEmpresas();
     }
   };
-  const [endereco_cep, setCep] = useState("");
-  const [endereco_rua, setRua] = useState("");
-  const [endereco_bairro, setBairro] = useState("");
-  const [endereco_cidade, setCidade] = useState("");
-  const [endereco_uf, setUf] = useState("");
 
   const buscaCep = (event) => {
     const novoCep = event.target.value;
@@ -59,10 +55,10 @@ function ModalCadastrarEmpresa({ getEmpresas }) {
       axios
         .get(`https://viacep.com.br/ws/${novoCep}/json`)
         .then((response) => {
-          setRua(response.data.logradouro);
-          setBairro(response.data.bairro);
-          setCidade(response.data.localidade);
-          setUf(response.data.uf);
+          setValue("endereco_rua", response.data.logradouro);
+          setValue("endereco_bairro", response.data.bairro);
+          setValue("endereco_cidade", response.data.localidade);
+          setValue("endereco_uf", response.data.uf);
         })
         .catch((err) => {
           console.log(err);
@@ -177,7 +173,6 @@ function ModalCadastrarEmpresa({ getEmpresas }) {
                     type="text"
                     maxLength={256}
                     {...register("endereco_rua")}
-                    value={endereco_rua}
                   />
                 </FloatingLabel>
               </Col>
@@ -202,7 +197,6 @@ function ModalCadastrarEmpresa({ getEmpresas }) {
                     type="text"
                     maxLength={256}
                     {...register("endereco_bairro")}
-                    value={endereco_bairro}
                   />
                 </FloatingLabel>
               </Col>
@@ -216,7 +210,6 @@ function ModalCadastrarEmpresa({ getEmpresas }) {
                     type="text"
                     maxLength={256}
                     {...register("endereco_cidade")}
-                    value={endereco_cidade}
                   />
                 </FloatingLabel>
               </Col>
@@ -230,7 +223,6 @@ function ModalCadastrarEmpresa({ getEmpresas }) {
                     type="text"
                     maxLength={256}
                     {...register("endereco_uf")}
-                    value={endereco_uf}
                   />
                 </FloatingLabel>
               </Col>
