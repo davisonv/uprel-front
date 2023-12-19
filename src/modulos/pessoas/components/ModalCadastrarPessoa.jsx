@@ -14,7 +14,9 @@ function ModalCadastrarPessoa({ getPessoas }) {
   const [carregando, setCarregando] = useState(false);
   const [empresas, setEmpresas] = useState([{}]);
 
-  const { register, handleSubmit, reset } = useForm();
+  const [endereco_cep, setCep] = useState("");
+
+  const { register, handleSubmit, reset, setValue } = useForm();
 
   const customToastOptions = {
     position: "bottom-right", // Posição onde as notificações serão exibidas
@@ -30,6 +32,7 @@ function ModalCadastrarPessoa({ getPessoas }) {
     const dados = {
       ...values,
     };
+    console.log(dados);
     if (
       !dados.nome ||
       !dados.data_nascimento ||
@@ -72,12 +75,6 @@ function ModalCadastrarPessoa({ getPessoas }) {
     getEmpresas();
   }, []);
 
-  const [endereco_cep, setCep] = useState("");
-  const [endereco_rua, setRua] = useState("");
-  const [endereco_bairro, setBairro] = useState("");
-  const [endereco_cidade, setCidade] = useState("");
-  const [endereco_uf, setUf] = useState("");
-
   const buscaCep = (event) => {
     const novoCep = event.target.value;
     setCep(novoCep);
@@ -85,10 +82,10 @@ function ModalCadastrarPessoa({ getPessoas }) {
       axios
         .get(`https://viacep.com.br/ws/${novoCep}/json`)
         .then((response) => {
-          setRua(response.data.logradouro);
-          setBairro(response.data.bairro);
-          setCidade(response.data.localidade);
-          setUf(response.data.uf);
+          setValue("endereco_rua", response.data.logradouro);
+          setValue("endereco_bairro", response.data.bairro);
+          setValue("endereco_cidade", response.data.localidade);
+          setValue("endereco_uf", response.data.uf);
         })
         .catch((err) => {
           console.log(err);
@@ -220,7 +217,7 @@ function ModalCadastrarPessoa({ getPessoas }) {
                     type="text"
                     maxLength={256}
                     {...register("endereco_rua")}
-                    value={endereco_rua}
+                  
                   />
                 </FloatingLabel>
               </Col>
@@ -245,7 +242,6 @@ function ModalCadastrarPessoa({ getPessoas }) {
                     type="text"
                     maxLength={256}
                     {...register("endereco_bairro")}
-                    value={endereco_bairro}
                   />
                 </FloatingLabel>
               </Col>
@@ -259,7 +255,6 @@ function ModalCadastrarPessoa({ getPessoas }) {
                     type="text"
                     maxLength={256}
                     {...register("endereco_cidade")}
-                    value={endereco_cidade}
                   />
                 </FloatingLabel>
               </Col>
@@ -273,7 +268,6 @@ function ModalCadastrarPessoa({ getPessoas }) {
                     type="text"
                     maxLength={256}
                     {...register("endereco_uf")}
-                    value={endereco_uf}
                   />
                 </FloatingLabel>
               </Col>
@@ -296,7 +290,6 @@ function ModalCadastrarPessoa({ getPessoas }) {
                   className="mb-3"
                 >
                   <Form.Select aria-label="Empresa" {...register("empresa")}>
-                    <option value=""></option>
                     {empresas.length > 0 &&
                       empresas.map((empresa) => {
                         return (

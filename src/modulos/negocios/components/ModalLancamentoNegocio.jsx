@@ -141,7 +141,6 @@ const ModalLancamentoNegocio = ({
                       required: "Este campo é obrigatório",
                     })}
                   >
-                    <option value=""></option>
                     {clientes.length > 0 &&
                       clientes.map((cliente) => {
                         return (
@@ -166,7 +165,6 @@ const ModalLancamentoNegocio = ({
                       required: "Este campo é obrigatório",
                     })}
                   >
-                    <option value=""></option>
                     {usuarios.length > 0 &&
                       usuarios.map((usuario) => {
                         if (usuario.funcao === "V") {
@@ -191,7 +189,6 @@ const ModalLancamentoNegocio = ({
                     aria-label="Situação"
                     {...register("situacao", {})}
                   >
-                    <option value=""></option>
                     <option value="E" style={{ color: "orange" }}>
                       Em andamento
                     </option>
@@ -234,7 +231,6 @@ const ModalLancamentoNegocio = ({
               <Col>
                 <FloatingLabel controlId="etapa" label="Etapa" className="mb-3">
                   <Form.Select aria-label="Etapa" {...register("etapa", {})}>
-                    <option value=""></option>
                     <option value="PRO">Prospecção</option>
                     <option value="PRE">Pré-cadastro</option>
                     <option value="ASS">Assinatura</option>
@@ -252,7 +248,6 @@ const ModalLancamentoNegocio = ({
                     aria-label="Nível de Confiança"
                     {...register("nivel_confianca", {})}
                   >
-                    <option value=""></option>
                     <option value="1" className="text-danger">
                       1
                     </option>
@@ -260,7 +255,7 @@ const ModalLancamentoNegocio = ({
                       2
                     </option>
                     <option value="3" className="text-danger">
-                      4
+                      3
                     </option>
                     <option value="4" className="text-danger">
                       4

@@ -63,9 +63,6 @@ const ModalTarefas = ({ getNegocios, showModal, novoNegocio }) => {
 
   return (
     <>
-      {/* <Button variant="primary" onClick={handleShow} title="Tarefas">
-        Tarefas
-      </Button> */}
       <Modal show={show} onHide={handleClose} centered size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Tarefas</Modal.Title>
@@ -143,8 +140,7 @@ const ModalTarefas = ({ getNegocios, showModal, novoNegocio }) => {
                         {...register("status", {
                           required: "Este campo é obrigatório",
                         })}
-                      >
-                        <option value=""></option>
+                      >                        
                         <option value="A">Ativo</option>
                         <option value="I">Inativo</option>
                       </Form.Select>

@@ -105,7 +105,7 @@ function ListaNegocios() {
           <tr>
             <th>Data</th>
             <th>Título</th>
-            <th>Pessoa</th>
+            <th>Cliente</th>
             <th>Responsável</th>
             <th>Situação</th>
             <th>Ações</th>
