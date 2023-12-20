@@ -17,6 +17,7 @@ import BaseAPI from "../../../api/BaseAPI";
 import ModalCadastrarUsuario from "../components/ModalCadastrarUsuario";
 import ModalEditarUsuario from "../components/ModalEditarUsuario";
 import ModalAlterarSenha from "../components/ModalAlterarSenha";
+import RenderIf from "../../../design_system/RenderIf";
 
 function ListaUsuarios() {
   const [usuarios, setUsuarios] = useState([{}]);
@@ -37,7 +38,30 @@ function ListaUsuarios() {
     })
       .then((response) => {
         const { data } = response;
-        setUsuarios(data.results);
+        setUsuarios(data);
+        setCarregando(false);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
+  const nextPage = () => {
+    BaseAPI.get(usuarios.next)
+      .then((response) => {
+        const { data } = response;
+        setUsuarios(data);
+        setCarregando(false);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+  const previousPage = () => {
+    BaseAPI.get(usuarios.previous)
+      .then((response) => {
+        const { data } = response;
+        setUsuarios(data);
         setCarregando(false);
       })
       .catch((err) => {
@@ -87,8 +111,8 @@ function ListaUsuarios() {
         <tbody>
           {carregando && <Spinner animation="border" variant="primary" />}
           {!carregando &&
-            usuarios.length > 0 &&
-            usuarios.map((usuario) => {
+            usuarios.results.length > 0 &&
+            usuarios.results.map((usuario) => {
               return (
                 <tr key={usuario.id}>
                   <td>{usuario.first_name}</td>
@@ -124,6 +148,22 @@ function ListaUsuarios() {
             })}
         </tbody>
       </Table>
+      <div className="d-flex justify-content-center">
+        <RenderIf condicao={usuarios.next}>
+          <div className="m-1">
+            <Button variant="primary" onClick={nextPage}>
+              Próxima página
+            </Button>
+          </div>
+        </RenderIf>
+        <RenderIf condicao={usuarios.previous}>
+          <div className="m-1">
+            <Button variant="primary" onClick={previousPage}>
+              Página Anterior
+            </Button>
+          </div>
+        </RenderIf>
+      </div>
     </Container>
   );
 }
