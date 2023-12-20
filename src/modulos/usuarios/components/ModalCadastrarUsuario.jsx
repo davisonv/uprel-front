@@ -133,7 +133,11 @@ const ModalCadastrarUsuario = ({ getUsuarios }) => {
                   required
                   id="senha"
                 >
-                  <Form.Control type="password" {...register("password")} />
+                  <Form.Control
+                    type="password"
+                    required
+                    {...register("password")}
+                  />
                 </FloatingLabel>
               </Col>
               <Col>
@@ -147,6 +151,7 @@ const ModalCadastrarUsuario = ({ getUsuarios }) => {
                 >
                   <Form.Control
                     type="password"
+                    required
                     {...register("confirmarSenha")}
                   />
                 </FloatingLabel>
