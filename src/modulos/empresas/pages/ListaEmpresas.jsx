@@ -17,6 +17,7 @@ import BaseAPI from "../../../api/BaseAPI";
 import ModalCadastrarEmpresa from "../components/ModalCadastrarEmpresa";
 import ModalEditarEmpresa from "../components/ModalEditarEmpresa";
 import ModalExcluirEmpresa from "../components/ModalExcluirEmpresa";
+import RenderIf from "../../../design_system/RenderIf";
 
 function ListaEmpresas() {
   const [empresas, setEmpresas] = useState([{}]);
@@ -37,14 +38,35 @@ function ListaEmpresas() {
     })
       .then((response) => {
         const { data } = response;
-        setEmpresas(data.results);
+        setEmpresas(data);
         setCarregando(false);
       })
       .catch((err) => {
         alert(err);
       });
   };
-
+  const nextPage = () => {
+    BaseAPI.get(empresas.next)
+      .then((response) => {
+        const { data } = response;
+        setEmpresas(data);
+        setCarregando(false);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+  const previousPage = () => {
+    BaseAPI.get(empresas.previous)
+      .then((response) => {
+        const { data } = response;
+        setEmpresas(data);
+        setCarregando(false);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
   useEffect(() => {
     getEmpresas();
   }, []);
@@ -86,8 +108,8 @@ function ListaEmpresas() {
         <tbody className="text-center">
           {carregando && <Spinner animation="border" variant="primary" />}
           {!carregando &&
-            empresas.length > 0 &&
-            empresas.map((empresa) => {
+            empresas.results.length > 0 &&
+            empresas.results.map((empresa) => {
               return (
                 <tr key={empresa.id}>
                   <td>{empresa.nome}</td>
@@ -113,6 +135,22 @@ function ListaEmpresas() {
             })}
         </tbody>
       </Table>
+      <div className="d-flex justify-content-center">
+        <RenderIf condicao={empresas.next}>
+          <div className="m-1">
+            <Button variant="primary" onClick={nextPage}>
+              Próxima página
+            </Button>
+          </div>
+        </RenderIf>
+        <RenderIf condicao={empresas.previous}>
+          <div className="m-1">
+            <Button variant="primary" onClick={previousPage}>
+              Página Anterior
+            </Button>
+          </div>
+        </RenderIf>
+      </div>
     </Container>
   );
 }

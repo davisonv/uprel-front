@@ -17,6 +17,7 @@ import BaseAPI from "../../../api/BaseAPI";
 import ModalCadastrarProduto from "../components/ModalCadastrarProduto";
 import ModalEditarProduto from "../components/ModalEditarProduto";
 import ModalExcluirProduto from "../components/ModalExcluirProduto";
+import RenderIf from "../../../design_system/RenderIf";
 
 function ListaProdutos() {
   const [produtos, setProdutos] = useState([{}]);
@@ -37,7 +38,30 @@ function ListaProdutos() {
     })
       .then((response) => {
         const { data } = response;
-        setProdutos(data.results);
+        setProdutos(data);
+        setCarregando(false);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
+  const nextPage = () => {
+    BaseAPI.get(produtos.next)
+      .then((response) => {
+        const { data } = response;
+        setProdutos(data);
+        setCarregando(false);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+  const previousPage = () => {
+    BaseAPI.get(produtos.previous)
+      .then((response) => {
+        const { data } = response;
+        setProdutos(data);
         setCarregando(false);
       })
       .catch((err) => {
@@ -87,8 +111,8 @@ function ListaProdutos() {
         <tbody className="text-center">
           {carregando && <Spinner animation="border" variant="primary" />}
           {!carregando &&
-            produtos.length > 0 &&
-            produtos.map((produto) => {
+            produtos.results.length > 0 &&
+            produtos.results.map((produto) => {
               return (
                 <tr key={produto.id_produto}>
                   <td>{produto.nome_produto}</td>
@@ -115,6 +139,22 @@ function ListaProdutos() {
             })}
         </tbody>
       </Table>
+      <div className="d-flex justify-content-center">
+        <RenderIf condicao={produtos.next}>
+          <div className="m-1">
+            <Button variant="primary" onClick={nextPage}>
+              Próxima página
+            </Button>
+          </div>
+        </RenderIf>
+        <RenderIf condicao={produtos.previous}>
+          <div className="m-1">
+            <Button variant="primary" onClick={previousPage}>
+              Página Anterior
+            </Button>
+          </div>
+        </RenderIf>
+      </div>
     </Container>
   );
 }

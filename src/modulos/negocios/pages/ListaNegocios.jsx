@@ -18,13 +18,13 @@ import ModalLancamentoNegocio from "../components/ModalLancamentoNegocio";
 import ModalEditarnegocio from "../components/ModalEditarNegocio";
 import ModalExcluirNegocio from "../components/ModalExcluirNegocio";
 import ModalTarefas from "../components/ModalTarefas";
+import RenderIf from "../../../design_system/RenderIf";
 
 function ListaNegocios() {
   const [negocios, setNegocios] = useState([{}]);
   const [carregando, setCarregando] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [novoNegocio, setNovoNegocio] = useState({});
-  const [simOuNao, setSimOuNao] = useState(false);
 
   const { register, handleSubmit } = useForm({
     defaultValues: {
@@ -42,7 +42,7 @@ function ListaNegocios() {
       .then((response) => {
         setCarregando(false);
         const { data } = response;
-        setNegocios(data.results);
+        setNegocios(data);
       })
       .catch((err) => {
         alert(err);
@@ -59,6 +59,28 @@ function ListaNegocios() {
     return `${day}/${month}/${year} ${hours}:${minutes}`;
   }
 
+  const nextPage = () => {
+    BaseAPI.get(negocios.next)
+      .then((response) => {
+        const { data } = response;
+        setNegocios(data);
+        setCarregando(false);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+  const previousPage = () => {
+    BaseAPI.get(negocios.previous)
+      .then((response) => {
+        const { data } = response;
+        setNegocios(data);
+        setCarregando(false);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
   useEffect(() => {
     getNegocios();
   }, []);
@@ -114,8 +136,8 @@ function ListaNegocios() {
         <tbody className="text-center">
           {carregando && <Spinner animation="border" variant="primary" />}
           {!carregando &&
-            negocios.length > 0 &&
-            negocios.map((negocio) => {
+            negocios.results.length > 0 &&
+            negocios.results.map((negocio) => {
               const dataHoraFormatada = formatDateTime(
                 negocio.data_hora_negocio
               );
@@ -168,6 +190,22 @@ function ListaNegocios() {
             })}
         </tbody>
       </Table>
+      <div className="d-flex justify-content-center">
+        <RenderIf condicao={negocios.next}>
+          <div className="m-1">
+            <Button variant="primary" onClick={nextPage}>
+              Próxima página
+            </Button>
+          </div>
+        </RenderIf>
+        <RenderIf condicao={negocios.previous}>
+          <div className="m-1">
+            <Button variant="primary" onClick={previousPage}>
+              Página Anterior
+            </Button>
+          </div>
+        </RenderIf>
+      </div>
     </Container>
   );
 }
