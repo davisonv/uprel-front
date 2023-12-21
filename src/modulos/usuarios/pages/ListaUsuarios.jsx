@@ -149,17 +149,18 @@ function ListaUsuarios() {
         </tbody>
       </Table>
       <div className="d-flex justify-content-center">
-        <RenderIf condicao={usuarios.next}>
-          <div className="m-1">
-            <Button variant="primary" onClick={nextPage}>
-              Próxima página
-            </Button>
-          </div>
-        </RenderIf>
         <RenderIf condicao={usuarios.previous}>
           <div className="m-1">
             <Button variant="primary" onClick={previousPage}>
               Página Anterior
+            </Button>
+          </div>
+        </RenderIf>
+
+        <RenderIf condicao={usuarios.next}>
+          <div className="m-1">
+            <Button variant="primary" onClick={nextPage}>
+              Próxima página
             </Button>
           </div>
         </RenderIf>

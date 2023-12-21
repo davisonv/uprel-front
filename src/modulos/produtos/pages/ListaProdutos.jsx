@@ -140,13 +140,7 @@ function ListaProdutos() {
         </tbody>
       </Table>
       <div className="d-flex justify-content-center">
-        <RenderIf condicao={produtos.next}>
-          <div className="m-1">
-            <Button variant="primary" onClick={nextPage}>
-              Próxima página
-            </Button>
-          </div>
-        </RenderIf>
+        
         <RenderIf condicao={produtos.previous}>
           <div className="m-1">
             <Button variant="primary" onClick={previousPage}>
@@ -154,6 +148,15 @@ function ListaProdutos() {
             </Button>
           </div>
         </RenderIf>
+
+        <RenderIf condicao={produtos.next}>
+          <div className="m-1">
+            <Button variant="primary" onClick={nextPage}>
+              Próxima página
+            </Button>
+          </div>
+        </RenderIf>
+        
       </div>
     </Container>
   );
