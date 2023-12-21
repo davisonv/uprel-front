@@ -17,6 +17,7 @@ import BaseAPI from "../../../api/BaseAPI";
 import ModalCadastrarPessoa from "../components/ModalCadastrarPessoa";
 import ModalEditarPessoa from "../components/ModalEditarPessoa";
 import ModalExcluirPessoa from "../components/ModalExcluirPessoa";
+import RenderIf from "../../../design_system/RenderIf";
 
 function ListaPessoas() {
   const [pessoas, setPessoas] = useState([{}]);
@@ -37,7 +38,29 @@ function ListaPessoas() {
     })
       .then((response) => {
         const { data } = response;
-        setPessoas(data.results);
+        setPessoas(data);
+        setCarregando(false);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+  const nextPage = () => {
+    BaseAPI.get(pessoas.next)
+      .then((response) => {
+        const { data } = response;
+        setPessoas(data);
+        setCarregando(false);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+  const previousPage = () => {
+    BaseAPI.get(pessoas.previous)
+      .then((response) => {
+        const { data } = response;
+        setPessoas(data);
         setCarregando(false);
       })
       .catch((err) => {
@@ -86,8 +109,8 @@ function ListaPessoas() {
         <tbody className="text-center">
           {carregando && <Spinner animation="border" variant="primary" />}
           {!carregando &&
-            pessoas.length > 0 &&
-            pessoas.map((pessoa) => {
+            pessoas.results.length > 0 &&
+            pessoas.results.map((pessoa) => {
               return (
                 <tr key={pessoa.id}>
                   <td>{pessoa.nome}</td>
@@ -113,6 +136,22 @@ function ListaPessoas() {
             })}
         </tbody>
       </Table>
+      <div className="d-flex justify-content-center">
+        <RenderIf condicao={pessoas.previous}>
+          <div className="m-1">
+            <Button variant="primary" onClick={previousPage}>
+              Página Anterior
+            </Button>
+          </div>
+        </RenderIf>
+        <RenderIf condicao={pessoas.next}>
+          <div className="m-1">
+            <Button variant="primary" onClick={nextPage}>
+              Próxima página
+            </Button>
+          </div>
+        </RenderIf>
+      </div>
     </Container>
   );
 }

@@ -51,7 +51,11 @@ function ModalEditarnegocio(props) {
       });
   };
   const getUsuarios = () => {
-    BaseAPI.get("/usuarios/lista_usuarios/")
+    BaseAPI.get("/usuarios/lista_usuarios/", {
+      params: {
+        is_active: true,
+      },
+    })
       .then((response) => {
         const { data } = response;
         setUsuarios(data.results);
