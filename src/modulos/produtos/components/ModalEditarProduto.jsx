@@ -104,22 +104,6 @@ function ModalEditarProduto(props) {
                   />
                 </FloatingLabel>
               </Col>
-              <Col>
-                <FloatingLabel
-                  controlId="floatingInput"
-                  label="Valor"
-                  className="mb-3"
-                >
-                  <Form.Control
-                    type="number"
-                    step="0.01"
-                    value={produto.valor_produto}
-                    onChange={(e) =>
-                      setProduto({ ...produto, valor_produto: e.target.value })
-                    }
-                  />
-                </FloatingLabel>
-              </Col>
             </Row>
             <Row>
               <Col>

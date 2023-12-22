@@ -43,7 +43,7 @@ const ModalLancamentoNegocio = ({
     BaseAPI.get("/clientes/lista_clientes/")
       .then((response) => {
         const { data } = response;
-        setClientes(data.results);
+        setClientes(data);
       })
       .catch((err) => {
         alert(err);
@@ -288,6 +288,19 @@ const ModalLancamentoNegocio = ({
                       10
                     </option>
                   </Form.Select>
+                </FloatingLabel>
+              </Col>
+              <Col>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="Valor (R$)"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="number"
+                    step="0.01"
+                    {...register("valor_negocio")}
+                  />
                 </FloatingLabel>
               </Col>
             </Row>

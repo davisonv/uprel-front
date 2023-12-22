@@ -388,6 +388,25 @@ function ModalEditarnegocio(props) {
                       </Form.Select>
                     </FloatingLabel>
                   </Col>
+                  <Col>
+                    <FloatingLabel
+                      controlId="floatingInput"
+                      label="Valor (R$)"
+                      className="mb-3"
+                    >
+                      <Form.Control
+                        type="number"
+                        step="0.01"
+                        value={negocio.valor_negocio}
+                        onChange={(e) =>
+                          setNegocio({
+                            ...negocio,
+                            valor_negocio: e.target.value,
+                          })
+                        }
+                      />
+                    </FloatingLabel>
+                  </Col>
                 </Row>
 
                 <Modal.Footer>
