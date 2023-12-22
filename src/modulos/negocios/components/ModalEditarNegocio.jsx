@@ -34,7 +34,7 @@ function ModalEditarnegocio(props) {
     BaseAPI.get("/clientes/lista_clientes/")
       .then((response) => {
         const { data } = response;
-        setClientes(data.results);
+        setClientes(data);
       })
       .catch((err) => {
         alert(err);
