@@ -290,6 +290,19 @@ const ModalLancamentoNegocio = ({
                   </Form.Select>
                 </FloatingLabel>
               </Col>
+              <Col>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="Valor (R$)"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="number"
+                    step="0.01"
+                    {...register("valor_negocio")}
+                  />
+                </FloatingLabel>
+              </Col>
             </Row>
             <Modal.Footer>
               <Button variant="danger" onClick={handleClose}>

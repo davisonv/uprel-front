@@ -47,7 +47,7 @@ function ListaUsuarios() {
   };
 
   const nextPage = () => {
-    BaseAPI.get(usuarios.next)
+    BaseAPI.get(usuarios.next.replace("http", "https"))
       .then((response) => {
         const { data } = response;
         setUsuarios(data);
@@ -58,7 +58,7 @@ function ListaUsuarios() {
       });
   };
   const previousPage = () => {
-    BaseAPI.get(usuarios.previous)
+    BaseAPI.get(usuarios.previous.replace("http", "https"))
       .then((response) => {
         const { data } = response;
         setUsuarios(data);
