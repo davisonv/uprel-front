@@ -47,7 +47,7 @@ function ListaProdutos() {
   };
 
   const nextPage = () => {
-    BaseAPI.get(produtos.next)
+    BaseAPI.get(produtos.next.replace("http", "https"))
       .then((response) => {
         const { data } = response;
         setProdutos(data);
@@ -58,7 +58,7 @@ function ListaProdutos() {
       });
   };
   const previousPage = () => {
-    BaseAPI.get(produtos.previous)
+    BaseAPI.get(produtos.previous.replace("http", "https"))
       .then((response) => {
         const { data } = response;
         setProdutos(data);

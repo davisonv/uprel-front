@@ -46,7 +46,7 @@ function ListaEmpresas() {
       });
   };
   const nextPage = () => {
-    BaseAPI.get(empresas.next)
+    BaseAPI.get(empresas.next.replace("http", "https"))
       .then((response) => {
         const { data } = response;
         setEmpresas(data);
@@ -57,7 +57,7 @@ function ListaEmpresas() {
       });
   };
   const previousPage = () => {
-    BaseAPI.get(empresas.previous)
+    BaseAPI.get(empresas.previous.replace("http", "https"))
       .then((response) => {
         const { data } = response;
         setEmpresas(data);

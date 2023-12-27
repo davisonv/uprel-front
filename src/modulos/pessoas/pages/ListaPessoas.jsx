@@ -46,7 +46,7 @@ function ListaPessoas() {
       });
   };
   const nextPage = () => {
-    BaseAPI.get(pessoas.next)
+    BaseAPI.get(pessoas.next.replace("http", "https"))
       .then((response) => {
         const { data } = response;
         setPessoas(data);
@@ -57,7 +57,7 @@ function ListaPessoas() {
       });
   };
   const previousPage = () => {
-    BaseAPI.get(pessoas.previous)
+    BaseAPI.get(pessoas.previous.replace("http", "https"))
       .then((response) => {
         const { data } = response;
         setPessoas(data);
