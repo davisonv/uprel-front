@@ -136,22 +136,6 @@ function ListaPessoas() {
             })}
         </tbody>
       </Table>
-      <div className="d-flex justify-content-center">
-        <RenderIf condicao={pessoas.next}>
-          <div className="m-1">
-            <Button variant="primary" onClick={nextPage}>
-              Próxima página
-            </Button>
-          </div>
-        </RenderIf>
-        <RenderIf condicao={pessoas.previous}>
-          <div className="m-1">
-            <Button variant="primary" onClick={previousPage}>
-              Página Anterior
-            </Button>
-          </div>
-        </RenderIf>
-      </div>
     </Container>
   );
 }

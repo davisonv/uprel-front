@@ -104,7 +104,6 @@ function ListaProdutos() {
           <tr className="text-center">
             <th>Nome</th>
             <th>Descrição</th>
-            <th>Valor</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -117,7 +116,6 @@ function ListaProdutos() {
                 <tr key={produto.id_produto}>
                   <td>{produto.nome_produto}</td>
                   <td>{produto.descricao_produto}</td>
-                  <td>R${produto.valor_produto}</td>
                   <td>
                     <Row className="justify-content-center mx-1">
                       <Col sm={3}>
