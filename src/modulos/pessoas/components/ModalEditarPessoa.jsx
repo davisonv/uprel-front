@@ -92,7 +92,7 @@ function ModalEditarPessoa(props) {
     }
   };
   useEffect(() => {
-    getEmpresas();
+    if (show) getEmpresas();
   }, []);
   return (
     <>
@@ -370,7 +370,7 @@ function ModalEditarPessoa(props) {
                     }
                   >
                     <option value="">Selecione...</option>
-           
+
                     {empresas.length > 0 &&
                       empresas.map((empresa) => {
                         return (
