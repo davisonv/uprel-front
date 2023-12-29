@@ -18,6 +18,7 @@ import ModalCadastrarEmpresa from "../components/ModalCadastrarEmpresa";
 import ModalEditarEmpresa from "../components/ModalEditarEmpresa";
 import ModalExcluirEmpresa from "../components/ModalExcluirEmpresa";
 import RenderIf from "../../../design_system/RenderIf";
+import NextAndPreviousPageAPI from "../../../api/NextAndPreviousPageAPI";
 
 function ListaEmpresas() {
   const [empresas, setEmpresas] = useState([{}]);
@@ -46,7 +47,9 @@ function ListaEmpresas() {
       });
   };
   const nextPage = () => {
-    BaseAPI.get(empresas.next.replace("http", "https"))
+    const url = new URL(empresas.next);
+    const path = url.pathname.substring(7) + url.search;
+    NextAndPreviousPageAPI.get(path)
       .then((response) => {
         const { data } = response;
         setEmpresas(data);
@@ -57,7 +60,9 @@ function ListaEmpresas() {
       });
   };
   const previousPage = () => {
-    BaseAPI.get(empresas.previous.replace("http", "https"))
+    const url = new URL(empresas.previous);
+    const path = url.pathname.substring(7) + url.search;
+    NextAndPreviousPageAPI.get(path)
       .then((response) => {
         const { data } = response;
         setEmpresas(data);
@@ -136,11 +141,10 @@ function ListaEmpresas() {
         </tbody>
       </Table>
       <div className="d-flex justify-content-center">
-       
         <RenderIf condicao={empresas.previous}>
           <div className="m-1">
             <Button variant="primary" onClick={previousPage}>
-              Página Anterior
+              &lt;
             </Button>
           </div>
         </RenderIf>
@@ -148,11 +152,10 @@ function ListaEmpresas() {
         <RenderIf condicao={empresas.next}>
           <div className="m-1">
             <Button variant="primary" onClick={nextPage}>
-              Próxima página
+              &gt;
             </Button>
           </div>
         </RenderIf>
-        
       </div>
     </Container>
   );

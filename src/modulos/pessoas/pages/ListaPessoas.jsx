@@ -18,6 +18,7 @@ import ModalCadastrarPessoa from "../components/ModalCadastrarPessoa";
 import ModalEditarPessoa from "../components/ModalEditarPessoa";
 import ModalExcluirPessoa from "../components/ModalExcluirPessoa";
 import RenderIf from "../../../design_system/RenderIf";
+import NextAndPreviousPageAPI from "../../../api/NextAndPreviousPageAPI";
 
 function ListaPessoas() {
   const [pessoas, setPessoas] = useState([{}]);
@@ -46,7 +47,9 @@ function ListaPessoas() {
       });
   };
   const nextPage = () => {
-    BaseAPI.get(pessoas.next.replace("http", "https"))
+    const url = new URL(pessoas.next);
+    const path = url.pathname.substring(7) + url.search;
+    NextAndPreviousPageAPI.get(path)
       .then((response) => {
         const { data } = response;
         setPessoas(data);
@@ -57,7 +60,9 @@ function ListaPessoas() {
       });
   };
   const previousPage = () => {
-    BaseAPI.get(pessoas.previous.replace("http", "https"))
+    const url = new URL(pessoas.previous);
+    const path = url.pathname.substring(7) + url.search;
+    NextAndPreviousPageAPI.get(path)
       .then((response) => {
         const { data } = response;
         setPessoas(data);
@@ -140,14 +145,14 @@ function ListaPessoas() {
         <RenderIf condicao={pessoas.previous}>
           <div className="m-1">
             <Button variant="primary" onClick={previousPage}>
-              Página Anterior
+              &lt;
             </Button>
           </div>
         </RenderIf>
         <RenderIf condicao={pessoas.next}>
           <div className="m-1">
             <Button variant="primary" onClick={nextPage}>
-              Próxima página
+              &gt;
             </Button>
           </div>
         </RenderIf>

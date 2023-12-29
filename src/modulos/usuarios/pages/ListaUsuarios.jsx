@@ -14,6 +14,7 @@ import {
 
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import BaseAPI from "../../../api/BaseAPI";
+import NextAndPreviousPageAPI from "../../../api/NextAndPreviousPageAPI";
 import ModalCadastrarUsuario from "../components/ModalCadastrarUsuario";
 import ModalEditarUsuario from "../components/ModalEditarUsuario";
 import ModalAlterarSenha from "../components/ModalAlterarSenha";
@@ -47,7 +48,9 @@ function ListaUsuarios() {
   };
 
   const nextPage = () => {
-    BaseAPI.get(usuarios.next.replace("http", "https"))
+    const url = new URL(usuarios.next);
+    const path = url.pathname.substring(7) + url.search;
+    NextAndPreviousPageAPI.get(path)
       .then((response) => {
         const { data } = response;
         setUsuarios(data);
@@ -58,7 +61,9 @@ function ListaUsuarios() {
       });
   };
   const previousPage = () => {
-    BaseAPI.get(usuarios.previous.replace("http", "https"))
+    const url = new URL(usuarios.previous);
+    const path = url.pathname.substring(7) + url.search;
+    NextAndPreviousPageAPI.get(path)
       .then((response) => {
         const { data } = response;
         setUsuarios(data);
@@ -152,7 +157,7 @@ function ListaUsuarios() {
         <RenderIf condicao={usuarios.previous}>
           <div className="m-1">
             <Button variant="primary" onClick={previousPage}>
-              Página Anterior
+              &lt;
             </Button>
           </div>
         </RenderIf>
@@ -160,7 +165,7 @@ function ListaUsuarios() {
         <RenderIf condicao={usuarios.next}>
           <div className="m-1">
             <Button variant="primary" onClick={nextPage}>
-              Próxima página
+              &gt;
             </Button>
           </div>
         </RenderIf>

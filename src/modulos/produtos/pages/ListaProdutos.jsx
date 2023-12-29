@@ -14,6 +14,7 @@ import {
 
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import BaseAPI from "../../../api/BaseAPI";
+import NextAndPreviousPageAPI from "../../../api/NextAndPreviousPageAPI";
 import ModalCadastrarProduto from "../components/ModalCadastrarProduto";
 import ModalEditarProduto from "../components/ModalEditarProduto";
 import ModalExcluirProduto from "../components/ModalExcluirProduto";
@@ -47,7 +48,9 @@ function ListaProdutos() {
   };
 
   const nextPage = () => {
-    BaseAPI.get(produtos.next.replace("http", "https"))
+    const url = new URL(produtos.next);
+    const path = url.pathname.substring(7) + url.search;
+    NextAndPreviousPageAPI.get(path)
       .then((response) => {
         const { data } = response;
         setProdutos(data);
@@ -58,7 +61,9 @@ function ListaProdutos() {
       });
   };
   const previousPage = () => {
-    BaseAPI.get(produtos.previous.replace("http", "https"))
+    const url = new URL(produtos.previous);
+    const path = url.pathname.substring(7) + url.search;
+    NextAndPreviousPageAPI.get(path)
       .then((response) => {
         const { data } = response;
         setProdutos(data);
@@ -138,11 +143,10 @@ function ListaProdutos() {
         </tbody>
       </Table>
       <div className="d-flex justify-content-center">
-        
         <RenderIf condicao={produtos.previous}>
           <div className="m-1">
             <Button variant="primary" onClick={previousPage}>
-              Página Anterior
+              &lt;
             </Button>
           </div>
         </RenderIf>
@@ -150,11 +154,10 @@ function ListaProdutos() {
         <RenderIf condicao={produtos.next}>
           <div className="m-1">
             <Button variant="primary" onClick={nextPage}>
-              Próxima página
+              &gt;
             </Button>
           </div>
         </RenderIf>
-        
       </div>
     </Container>
   );

@@ -14,6 +14,7 @@ import {
 
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import BaseAPI from "../../../api/BaseAPI";
+import NextAndPreviousPageAPI from "../../../api/NextAndPreviousPageAPI";
 import ModalLancamentoNegocio from "../components/ModalLancamentoNegocio";
 import ModalEditarnegocio from "../components/ModalEditarNegocio";
 import ModalExcluirNegocio from "../components/ModalExcluirNegocio";
@@ -60,7 +61,9 @@ function ListaNegocios() {
   }
 
   const nextPage = () => {
-    BaseAPI.get(negocios.next)
+    const url = new URL(negocios.next);
+    const path = url.pathname.substring(7) + url.search;
+    NextAndPreviousPageAPI.get(path)
       .then((response) => {
         const { data } = response;
         setNegocios(data);
@@ -71,7 +74,9 @@ function ListaNegocios() {
       });
   };
   const previousPage = () => {
-    BaseAPI.get(negocios.previous)
+    const url = new URL(negocios.previous);
+    const path = url.pathname.substring(7) + url.search;
+    NextAndPreviousPageAPI.get(path)
       .then((response) => {
         const { data } = response;
         setNegocios(data);
@@ -194,14 +199,14 @@ function ListaNegocios() {
         <RenderIf condicao={negocios.next}>
           <div className="m-1">
             <Button variant="primary" onClick={nextPage}>
-              Próxima página
+              &gt;
             </Button>
           </div>
         </RenderIf>
         <RenderIf condicao={negocios.previous}>
           <div className="m-1">
             <Button variant="primary" onClick={previousPage}>
-              Página Anterior
+              &lt;
             </Button>
           </div>
         </RenderIf>
