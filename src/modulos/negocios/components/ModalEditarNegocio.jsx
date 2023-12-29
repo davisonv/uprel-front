@@ -23,7 +23,6 @@ function ModalEditarnegocio(props) {
   const handleShow = () => setShow(true);
   const [negocio, setNegocio] = useState({});
   const [tarefas, setTarefas] = useState([{}]);
-  // const [tarefasTemp, setTarefasTemp] = useState([]);
   const [clientes, setClientes] = useState([{}]);
   const [produtos, setProdutos] = useState([{}]);
   const [usuarios, setUsuarios] = useState([{}]);
@@ -34,7 +33,7 @@ function ModalEditarnegocio(props) {
     BaseAPI.get("/clientes/lista_clientes/")
       .then((response) => {
         const { data } = response;
-        setClientes(data.results);
+        setClientes(data);
       })
       .catch((err) => {
         alert(err);
@@ -155,10 +154,12 @@ function ModalEditarnegocio(props) {
   }
 
   useEffect(() => {
-    getClientes();
-    getProdutos();
-    getUsuarios();
-  }, []);
+    if (show) {
+      getProdutos();
+      getClientes();
+      getUsuarios();
+    }
+  }, [show]);
 
   return (
     <>
