@@ -30,7 +30,6 @@ function ModalCadastrarEmpresa({ getEmpresas }) {
     const dados = {
       ...values,
     };
-    console.log(dados);
     if (!dados.nome || !dados.telefone || !dados.cnpj) {
       toast.danger("Preencha os dados obrigatórios !", customToastOptions);
     } else {
@@ -43,7 +42,14 @@ function ModalCadastrarEmpresa({ getEmpresas }) {
           getEmpresas();
         })
         .catch((err) => {
-          toast.error("Erro ao cadastrar empresa !", customToastOptions);
+          if (JSON.parse(err.request.response).cnpj) {
+            toast.error(
+              "Uma empresa com este CNPJ já foi cadastrada!",
+              customToastOptions
+            );
+          } else {
+            toast.error("Erro ao cadastrar empresa!", customToastOptions);
+          }
         });
     }
   };

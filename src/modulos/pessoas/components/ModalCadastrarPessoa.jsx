@@ -50,7 +50,14 @@ function ModalCadastrarPessoa({ getPessoas }) {
           getPessoas();
         })
         .catch((err) => {
-          toast.error("Erro ao cadastrar pessoa !", customToastOptions);
+          if (JSON.parse(err.request.response).cpf) {
+            toast.error(
+              "Uma pessoa com este CPF já foi cadastrada!",
+              customToastOptions
+            );
+          } else {
+            toast.error("Erro ao cadastrar pessoa!", customToastOptions);
+          }
         });
     }
   };
@@ -217,7 +224,6 @@ function ModalCadastrarPessoa({ getPessoas }) {
                     type="text"
                     maxLength={256}
                     {...register("endereco_rua")}
-                  
                   />
                 </FloatingLabel>
               </Col>
