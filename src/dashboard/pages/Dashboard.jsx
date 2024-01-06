@@ -4,6 +4,7 @@ import RoomServiceIcon from "@mui/icons-material/RoomService";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import WorkIcon from "@mui/icons-material/Work";
 import BusinessIcon from "@mui/icons-material/Business";
+import HandshakeIcon from "@mui/icons-material/Handshake";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
@@ -73,6 +74,19 @@ function Dashboard() {
               <Card.Subtitle className="mb-2 text-muted">Módulo</Card.Subtitle>
               <Card.Text>
                 <AssignmentIndIcon /> Cadastro de usuários
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={3}>
+          <Card
+            onClick={() => navigate("/parceiros")}
+            className="cursor-pointer"
+          >
+            <Card.Body>
+              <Card.Subtitle className="mb-2 text-muted">Módulo</Card.Subtitle>
+              <Card.Text>
+                <HandshakeIcon /> Cadastro de parceiros
               </Card.Text>
             </Card.Body>
           </Card>

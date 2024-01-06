@@ -1,0 +1,94 @@
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Button, Modal, Form } from "react-bootstrap";
+import BaseAPI from "../../../api/BaseAPI";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ErrorOutlinedIcon from "@mui/icons-material/ErrorOutlined";
+
+function ModalExcluirParceiro(props) {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [parceiro, setParceiro] = useState([{}]);
+
+  const { handleSubmit } = useForm();
+
+  const customToastOptions = {
+    position: "bottom-right", // Posição onde as notificações serão exibidas
+    autoClose: 3000, // Tempo em milissegundos para as notificações fecharem automaticamente
+    hideProgressBar: false, // Mostrar barra de progresso de tempo
+    pauseOnHover: true, // Pausar o tempo de fechamento ao passar o mouse sobre a notificação
+    draggable: true, // Permitir arrastar as notificações
+    progress: undefined, // Componente customizado para barra de progresso, caso queira substituir
+  };
+
+  const excluir = () => {
+    const updatedParceiro = { ...parceiro, status: "I" };
+    BaseAPI.patch(
+      "/parceiros/parceiro/" + props.idParceiro + "/",
+      updatedParceiro
+    )
+      .then((response) => {
+        props.getParceiros();
+        handleClose();
+        toast.success("Parceiro excluído!", customToastOptions);
+      })
+      .catch((err) => {
+        toast.error("Erro ao excluir parceiro!", customToastOptions);
+      });
+  };
+
+  function getParceiro() {
+    handleShow();
+    BaseAPI.get("/parceiros/parceiro/" + props.idParceiro)
+      .then((response) => {
+        const { data } = response;
+        setParceiro(data);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }
+
+  return (
+    <>
+      <Button
+        variant="danger"
+        onClick={() => getParceiro()}
+        title="Excluir Parceiro"
+        className="p-1"
+      >
+        <DeleteForeverIcon />
+      </Button>
+
+      <Modal show={show} onHide={handleClose} centered size="md">
+        <Modal.Body>
+          <Form onSubmit={handleSubmit(excluir)}>
+            <div className="d-flex justify-content-center mb-3">
+              <ErrorOutlinedIcon sx={{ fontSize: 100, color: "orange" }} />
+            </div>
+            <h3 className="text-center">
+              Deseja realmente excluir o parceiro{" "}
+              <strong>{parceiro.nome_parceiro}</strong>
+            </h3>
+
+            <div className="text-center mt-5">
+              <Button variant="danger" onClick={handleClose} className="mx-3">
+                Cancelar
+              </Button>
+              <Button variant="success" type="submit" className="mx-3">
+                Excluir
+              </Button>
+            </div>
+          </Form>
+        </Modal.Body>
+      </Modal>
+      <ToastContainer />
+    </>
+  );
+}
+
+export { ModalExcluirParceiro };
+export default ModalExcluirParceiro;

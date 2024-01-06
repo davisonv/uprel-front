@@ -17,6 +17,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ListaUsuarios from "./modulos/usuarios/pages/ListaUsuarios";
 import ListaNegocios from "./modulos/negocios/pages/ListaNegocios";
 import ListaEmpresas from "./modulos/empresas/pages/ListaEmpresas";
+import ListaParceiros from "./modulos/parceiros/pages/ListaParceiros";
 
 const router = createBrowserRouter([
   {
@@ -76,6 +77,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <ListaNegocios />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/parceiros",
+        element: (
+          <PrivateRoute>
+            <ListaParceiros />
           </PrivateRoute>
         ),
       },

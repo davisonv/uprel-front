@@ -13,6 +13,7 @@ function ModalEditarPessoa(props) {
   const handleShow = () => setShow(true);
   const [pessoa, setPessoa] = useState([{}]);
   const [empresas, setEmpresas] = useState([{}]);
+  const [parceiros, setParceiros] = useState([{}]);
 
   const {
     handleSubmit,
@@ -68,6 +69,18 @@ function ModalEditarPessoa(props) {
       });
   };
 
+  const getParceiros = () => {
+    handleShow();
+    BaseAPI.get("/parceiros/lista_parceiros/")
+      .then((response) => {
+        const { data } = response;
+        setParceiros(data.results);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
   const [cep, setCep] = useState("");
 
   const buscaCep = (event) => {
@@ -91,9 +104,13 @@ function ModalEditarPessoa(props) {
         });
     }
   };
+  
   useEffect(() => {
-    if (show) getEmpresas();
-  }, []);
+    if (show) {
+      getEmpresas();
+      getParceiros();
+    }
+  }, [show]);
   return (
     <>
       <Button
@@ -376,6 +393,41 @@ function ModalEditarPessoa(props) {
                         return (
                           <option key={empresa.id} value={empresa.id}>
                             {empresa.nome}
+                          </option>
+                        );
+                      })}
+                  </Form.Select>
+                </FloatingLabel>
+              </Col>
+            </Row>
+            <Row>
+              {" "}
+              <Col>
+                <FloatingLabel
+                  controlId="parceiros"
+                  label="Parceiro"
+                  className="mb-3"
+                >
+                  <Form.Select
+                    type="text"
+                    value={pessoa.parceiro}
+                    onChange={(e) =>
+                      setPessoa({
+                        ...pessoa,
+                        parceiro: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="">Selecione...</option>
+
+                    {parceiros.length > 0 &&
+                      parceiros.map((parceiro) => {
+                        return (
+                          <option
+                            key={parceiro.id_parceiro}
+                            value={parceiro.id_parceiro}
+                          >
+                            {parceiro.nome_parceiro}
                           </option>
                         );
                       })}

@@ -13,6 +13,7 @@ function ModalCadastrarPessoa({ getPessoas }) {
   const handleShow = () => setShow(true);
   const [carregando, setCarregando] = useState(false);
   const [empresas, setEmpresas] = useState([{}]);
+  const [parceiros, setParceiros] = useState([{}]);
 
   const [endereco_cep, setCep] = useState("");
 
@@ -77,9 +78,22 @@ function ModalCadastrarPessoa({ getPessoas }) {
         alert(err);
       });
   };
+  const getParceiros = (values) => {
+    setCarregando(true);
+    BaseAPI.get("/parceiros/lista_parceiros/")
+      .then((response) => {
+        const { data } = response;
+        setParceiros(data.results);
+        setCarregando(false);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
 
   useEffect(() => {
     getEmpresas();
+    getParceiros();
   }, []);
 
   const buscaCep = (event) => {
@@ -302,6 +316,30 @@ function ModalCadastrarPessoa({ getPessoas }) {
                         return (
                           <option key={empresa.id} value={empresa.id}>
                             {empresa.nome}
+                          </option>
+                        );
+                      })}
+                  </Form.Select>
+                </FloatingLabel>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <FloatingLabel
+                  controlId="parceiro"
+                  label="Parceiro"
+                  className="mb-3"
+                >
+                  <Form.Select aria-label="Parceiro" {...register("parceiro")}>
+                    <option value="">Selecione...</option>
+                    {parceiros.length > 0 &&
+                      parceiros.map((parceiro) => {
+                        return (
+                          <option
+                            key={parceiro.id_parceiro}
+                            value={parceiro.id_parceiro}
+                          >
+                            {parceiro.nome_parceiro}
                           </option>
                         );
                       })}

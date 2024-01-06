@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Modal, Form, FloatingLabel, Row, Col } from "react-bootstrap";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
@@ -13,6 +13,7 @@ function ModalCadastrarEmpresa({ getEmpresas }) {
   const handleShow = () => setShow(true);
   const [carregando, setCarregando] = useState(false);
   const [endereco_cep, setCep] = useState("");
+  const [parceiros, setParceiros] = useState([{}]);
 
   const { register, handleSubmit, reset, setValue } = useForm();
 
@@ -71,6 +72,23 @@ function ModalCadastrarEmpresa({ getEmpresas }) {
         });
     }
   };
+
+  const getParceiros = (values) => {
+    setCarregando(true);
+    BaseAPI.get("/parceiros/lista_parceiros/")
+      .then((response) => {
+        const { data } = response;
+        setParceiros(data.results);
+        setCarregando(false);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
+  useEffect(() => {
+    getParceiros();
+  }, []);
 
   return (
     <>
@@ -242,6 +260,30 @@ function ModalCadastrarEmpresa({ getEmpresas }) {
                   required
                 >
                   <Form.Control type="text" {...register("descricao")} />
+                </FloatingLabel>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <FloatingLabel
+                  controlId="parceiro"
+                  label="Parceiro"
+                  className="mb-3"
+                >
+                  <Form.Select aria-label="Parceiro" {...register("parceiro")}>
+                    <option value="">Selecione...</option>
+                    {parceiros.length > 0 &&
+                      parceiros.map((parceiro) => {
+                        return (
+                          <option
+                            key={parceiro.id_parceiro}
+                            value={parceiro.id_parceiro}
+                          >
+                            {parceiro.nome_parceiro}
+                          </option>
+                        );
+                      })}
+                  </Form.Select>
                 </FloatingLabel>
               </Col>
             </Row>
